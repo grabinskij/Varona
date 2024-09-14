@@ -1,0 +1,245 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.cartCount {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background-color: rgb(47, 249, 84);
+  color: white;
+  border-radius: 50%;
+  padding: 5px 9px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.burgerIcon {
+  display: none;
+}
+
+.navbar {
+  text-align: center;
+  margin-left: 280px;
+  margin-right: 280px;
+}
+
+.navLinks {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navLinks li {
+  display: inline-block;
+  margin-right: 20px;
+  margin-left: 20px;
+  white-space: nowrap;
+}
+
+.navLinks li:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.icons {
+  margin-right: 40px;
+  display: flex;
+  align-items: center;
+  position: relative; /* Added to position the cart count correctly */
+}
+
+.userIcon,
+.cartIcon,
+.burgerIcon {
+  font-size: 24px;
+  margin-left: 15px;
+}
+
+.cartIcon {
+  cursor: pointer;
+  position: relative; /* Added to position the cart count correctly */
+}
+
+.logotype {
+  width: 100px;
+  margin-left: 40px;
+}
+
+.blackBackground {
+  background-color: black;
+  color: white;
+  padding: 10px;
+}
+
+/* Media query for responsive design */
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+
+  .logotype {
+    width: 100px;
+    margin-left: 0px;
+  }
+
+  .icons {
+    margin-right: 0px;
+    display: flex;
+    align-items: center;
+    position: relative; /* Added to position the cart count correctly */
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .burgerIcon {
+    display: block;
+  }
+
+  .dropdownMenu {
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    background-color: beige;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 0px;
+    z-index: 2000;
+  }
+
+  .navbar {
+    text-align: center;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  .dropdownLinks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdownLinks li {
+    margin: 10px 0;
+    white-space: nowrap;
+  }
+
+  .dropdownLinks li:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navLinks {
+    display: none;
+  }
+
+  .logotype {
+    width: 100px;
+    margin-left: 0px;
+  }
+
+  .icons {
+    margin-right: 0px;
+    display: flex;
+    align-items: center;
+    position: relative; /* Added to position the cart count correctly */
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .burgerIcon {
+    display: block;
+  }
+
+  .dropdownMenu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: beige;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 2000;
+  }
+
+  .dropdownLinks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdownLinks li {
+    margin: 10px 0;
+    white-space: nowrap;
+  }
+
+  .dropdownLinks li:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+@media(min-width: 1025px) and (max-width: 1366px) {
+  .logotype {
+    width: 100px;
+    margin-left: 0px;
+  }
+
+  .icons {
+    margin-right: 0px;
+    display: flex;
+    align-items: center;
+    position: relative; /* Added to position the cart count correctly */
+  }
+
+ @media (min-width: 1920px) and (max-width: 1920px) {
+  .navigation {
+    padding: 15px; /* Slightly increased padding for larger screens */
+  }
+
+  .logotype {
+    width: 150px; /* Increase logo size for better visibility */
+    margin-left: 60px; /* Adjust margin to center logo better */
+  }
+
+  .navbar {
+    margin-left: 320px; /* Adjust margins for better centering */
+    margin-right: 320px;
+  }
+
+  .navLinks li {
+    margin-right: 30px; /* Increase space between navigation links */
+    margin-left: 30px;
+  }
+
+  .icons {
+    color: bisque;
+    margin-right: 50px; /* Adjust margin for better spacing */
+  }
+
+  .userIcon,
+  .cartIcon,
+  .burgerIcon {
+    font-size: 28px; /* Increase icon size for better visibility */
+    margin-left: 20px; /* Adjust margin between icons */
+  }
+}
+
+}
