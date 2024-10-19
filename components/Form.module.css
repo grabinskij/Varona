@@ -1,12 +1,12 @@
 .wrapper {
+  max-width: 100%;
   width: 500px;
   padding: 15px;
   background-color: rgba(255, 255, 255, 0.181);
   border: 1px solid #cccccc82;
   border-radius: 10px;
-  justify-content: center;
-  margin-bottom: 40px;
-  margin-top: 100px;
+  margin: auto; 
+  margin-top: 50%;
   backdrop-filter: blur(7px);
 }
 
@@ -63,10 +63,15 @@ textarea {
 button {
   padding: 10px 40px;
   background-color: black;
-  color: rgb(255, 255, 255);
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
 }
 
 legend {
@@ -88,10 +93,27 @@ legend {
   margin-right: 5px;
 }
 
+/* Media Queries */
 @media (max-width: 768px) {
+  .inputWrapperRow {
+    flex-direction: column;
+  }
 
+  .inputItem {
+    width: 100%; /* Stack inputs in mobile view */
+  }
+
+  .wrapper {
+    width: 90%; /* Reduce width for smaller screens */
+     margin: auto; 
+  margin-top: 50%;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-
+  .wrapper {
+    width: 600px;
+      margin: auto; 
+  margin-top: 50%;
+  }
 }

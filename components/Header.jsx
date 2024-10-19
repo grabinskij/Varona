@@ -4,9 +4,7 @@ import Nav from "./Nav";
 import logo from "../src/assets/Logo.webp";
 import styles from "./Header.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import CartSummary from "./CartSummary";
 import { useCart } from "./CartContext";
 
@@ -28,10 +26,13 @@ const Header = () => {
 
   return (
     <Nav>
-    <div className={`${styles.navigation} ${isContactPage ? styles.blackBackground : ''}`}>
-        <div onClick={()=> navigate("/")} className={styles.logo}>
-          <img className={styles.logotype} onClick={() => navigate("/")} src={logo} alt="Shopping Cart" />
+      <div className={`${styles.navigation} ${isContactPage ? styles.blackBackground : ''}`}>
+        {/* Logo on the left */}
+        <div onClick={() => navigate("/")} className={styles.logo}>
+          <img className={styles.logotype} src={logo} alt="Logo" />
         </div>
+        
+        {/* Navigation links */}
         <div className={styles.navbar}>
           <ul className={styles.navLinks}>
             <li><p onClick={() => navigate("/ourstory")}>Our Story</p></li>
@@ -41,6 +42,8 @@ const Header = () => {
             <li><p onClick={() => navigate("/contacts")}>Contacts</p></li>
           </ul>
         </div>
+        
+        {/* Icons on the right */}
         <div className={styles.icons}>
           <div>
             <FontAwesomeIcon onClick={handleCartClick} className={styles.cartIcon} icon={faCartShopping} />
@@ -50,6 +53,8 @@ const Header = () => {
           <FontAwesomeIcon icon={faUser} className={styles.userIcon} />
           <FontAwesomeIcon className={styles.burgerIcon} onClick={toggleMenu} icon={faBars} />
         </div>
+
+        {/* Dropdown menu for mobile */}
         {menu && (
           <div className={styles.dropdownMenu}>
             <ul className={styles.dropdownLinks}>

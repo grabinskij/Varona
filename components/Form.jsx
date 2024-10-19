@@ -26,12 +26,16 @@ const Form = () => {
     }));
   };
 
+  // Check if the form is valid (all fields must be filled, and terms must be accepted)
+  const isFormValid =
+    formFields.name &&
+    formFields.surname &&
+    formFields.email &&
+    formFields.country &&
+    formFields.terms === "yes";
+
   return (
     <>
-
-      <br></br>
-
-
       <div className={styles.wrapper}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputWrapperRow}>
@@ -43,6 +47,7 @@ const Form = () => {
                 name="name"
                 value={formFields.name}
                 onChange={handleOnChange}
+                required
               />
             </div>
             <div className={styles.inputItem}>
@@ -53,17 +58,19 @@ const Form = () => {
                 name="surname"
                 value={formFields.surname}
                 onChange={handleOnChange}
+                required
               />
             </div>
           </div>
           <div className={styles.inputWrapper}>
             <label htmlFor="email">Email:</label>
             <input
-              type="text"
+              type="email"
               id="email"
               name="email"
               value={formFields.email}
               onChange={handleOnChange}
+              required
             />
           </div>
           <div className={styles.inputWrapper}>
@@ -73,7 +80,9 @@ const Form = () => {
               name="country"
               value={formFields.country}
               onChange={handleOnChange}
+              required
             >
+              <option value="">Select your country</option>
               <option value="USA">USA</option>
               <option value="Canada">Canada</option>
               <option value="Mexico">Mexico</option>
@@ -87,10 +96,11 @@ const Form = () => {
               rows="4"
               value={formFields.message}
               onChange={handleOnChange}
+              required
             />
           </div>
           <div className={fullWidthStyles}>
-            <legend style={{color:'grey', fontWeight:"200"}}>Do you agree to the terms?</legend>
+            <legend style={{ color: 'grey', fontWeight: '200' }}>Do you agree to the terms?</legend>
             <div className={styles.radioGroup}>
               <label>
                 <input
@@ -114,22 +124,17 @@ const Form = () => {
               </label>
             </div>
           </div>
-          <div >
+          <div>
             <button
               className={styles.button}
               type="submit"
-              // disabled={formFields.terms === "no" || formFields.terms === ""}
+              disabled={!isFormValid} // Disable the button if form is invalid
             >
               Submit
             </button>
           </div>
         </form>
       </div>
-
-      <br></br>
-      <br></br>
-      <br></br>
-
     </>
   );
 };

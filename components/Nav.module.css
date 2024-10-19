@@ -1,5 +1,5 @@
 .nav {
-  width: 100%;
+  width: 100vw;
   display: inline-block;
   flex-direction: row;
   position: fixed;
@@ -14,7 +14,7 @@
 }
 
 .navBarContentWrapper {
-  width: 100%;
+  width: 100vw;
   max-width: 100%; /* Full width on mobile */
   /* display: flex; */
   flex-direction: column; /* Stack items vertically on mobile */
@@ -26,9 +26,5 @@
   .nav {
     padding: 3px;
   }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  
 }
 
