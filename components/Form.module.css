@@ -111,17 +111,33 @@ legend {
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   .wrapper {
-    width: 80%;
+    left: 0;
+    width: 70%;
     margin-left: 0;
     /* padding: 20px; */
   }
 
+  .radioGroup {
+  display: flex;
+  gap: 20px;
+}
+
+.radioGroup label {
+  display: flex;
+  align-items: center;
+}
+
+.radioGroup input {
+  margin-right: 3px;
+}
+
   .inputWrapperRow {
     flex-direction: column; /* Stack inputs vertically on mobile */
-    gap: 10px;
+    gap: 7px;
   }
 
 .header {
+  margin-bottom: 0;
   padding-left: 20px;
   margin-top: 50px;
   color: white;
@@ -129,13 +145,14 @@ legend {
 
 .form {
   width: 80%; /* Full width within the .wrapper */
-  padding: 20px 30px;
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
   .textArea {
+    font-size: x-small;
     margin-top: 20px;
   }
 }

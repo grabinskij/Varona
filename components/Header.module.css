@@ -216,6 +216,11 @@
     display: none;
   }
 
+  .logo {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
   /* Show burger icon for mobile view */
   .burgerIcon {
     display: block;
@@ -233,5 +238,10 @@
   .navbar {
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .logo {
+    cursor: pointer;
+    margin-left: 20px;
   }
 }

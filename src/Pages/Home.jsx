@@ -6,7 +6,7 @@ import styles from "./Home.module.css";
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedImage } from '@cloudinary/react';
 import { auto } from '@cloudinary/url-gen/actions/resize';
-import { width } from "@fortawesome/free-solid-svg-icons/fa0";
+
 
 // Initialize Cloudinary
 const cld = new Cloudinary({
@@ -29,14 +29,7 @@ const Home = () => {
     <div className={styles.fon}>
       <AdvancedImage 
         cldImg={backgroundImage}
-        style={{
-          position: 'relative',
-          backgroundPosition: 'top',
-           backgroundSize: 'cover',
-          top: '-200px',
-          width: '100vw',
-          zIndex: -1, // Ensure the background is behind other content
-        }}
+        className = {styles.fon}
         modifiers={[auto({ aspectRatio: 'auto' })]} // Adjust the image size automatically
       />
       <div className={styles.sloganBlog}>
