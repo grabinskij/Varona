@@ -1,6 +1,6 @@
 .navigation {
   cursor: pointer;
-  width: 70vw; /* Adjusted to occupy 70% of the viewport width */
+  width: 100vw; /* Adjusted to occupy 70% of the viewport width */
   display: flex;
   align-items: center;
   justify-content: space-between; /* Align logo on the left, icons on the right */
