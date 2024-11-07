@@ -1,12 +1,11 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../components/Header";
-import Home from "../components/Home";
-import OurStory from "../components/OurStory";
-import OurService from "../components/OurService";
-import Blog from "../components/Blog";
-import Contacts from "../components/Contacts";
-import Shop from "../components/Shop";
+import Home from "./Pages/Home";
+import OurStory from "./Pages/OurStory";
+import OurService from "./Pages/OurService";
+import Blog from "./Pages/Blog";
+import Contacts from "./Pages/Contacts";
+import Shop from "./Pages/Shop";
 import Footer from "../components/Footer";
 import { CartProvider } from '../components/CartContext';
 

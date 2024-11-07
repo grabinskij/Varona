@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import styles from "./CardProduct.module.css";
@@ -14,8 +14,11 @@ const CardProduct = ({ name, image, price, description }) => {
   const decrement = () => count > 0 && setCount(count - 1);
 
   const itemAdd = () => {
-    const product = { name, price, quantity: count };
-    addToCart(product);
+    if (count > 0) {
+      const product = { name, price, quantity: count };
+      addToCart(product);
+      setCount(0); // Reset the count after adding to cart
+    }
   };
 
   const [selectedStars, setSelectedStars] = useState(0);
@@ -24,7 +27,12 @@ const CardProduct = ({ name, image, price, description }) => {
   return (
     <div className={styles.fashionItem}>
       <div className={styles.imageControl}>
-        <img src={image} alt={name} />
+        {/* Use the image prop correctly */}
+        {typeof image === 'string' ? (
+          <img src={image} alt={name} />
+        ) : (
+          image // Assuming image is already an AdvancedImage component
+        )}
       </div>
 
       <div className={styles.info}>
@@ -48,8 +56,8 @@ const CardProduct = ({ name, image, price, description }) => {
           </div>
         </div>
 
-        <div className={styles.quanty}>
-          <div className={styles.incriment}>
+        <div className={styles.quantity}>
+          <div className={styles.increment}>
             <p className={styles.incr} onClick={decrement}>-</p>
             <p className={styles.incr}>{count}</p>
             <p className={styles.incr} onClick={increment}>+</p>
@@ -63,7 +71,10 @@ const CardProduct = ({ name, image, price, description }) => {
 
 CardProduct.propTypes = {
   name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.oneOfType([ // Accept both string and React element
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   price: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
 };

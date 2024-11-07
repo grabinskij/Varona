@@ -1,3 +1,4 @@
+
 #root {
   --color-style: #110a71dd;
   --color-mission: #fff3e3;
@@ -6,15 +7,14 @@
   --color-customers: #69056e;
   display: flex;
   flex-direction: column;
-  /* text-align: center; */
+
   height: 100%; /* Ensures the root element takes the full viewport height */
 }
 
 html,
 body {
-  /* font-family: "Playfair Display", serif; */
-  height: 100%; /* Ensures the HTML and body take the full viewport height */
-  background-image: url("../src/assets/main.jpeg");
+  height: 100%; 
+  background-image: url("https://res.cloudinary.com/dwenvtwyx/image/upload/v1729599028/MATTEO9_evbaep.webp");
   background-size: cover;
   /* background-position: top; */
     margin: 0;

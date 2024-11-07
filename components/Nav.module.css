@@ -1,30 +1,39 @@
 .nav {
+  z-index: 100;
   width: 100vw;
-  display: inline-block;
-  flex-direction: row;
   position: fixed;
-  background-color: beige;
   top: 0;
   left: 0;
   right: 0;
+  background-color: beige;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.navContacts {
+  background-color: black; /* Black background for contact page */
+  color: white; /* White text for contact page */
+}
+
 .navBarContentWrapper {
-  width: 100vw;
-  max-width: 100%; /* Full width on mobile */
-  /* display: flex; */
-  flex-direction: column; /* Stack items vertically on mobile */
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 20px;
 }
 
 @media (max-width: 768px) {
   .nav {
     padding: 3px;
   }
-}
 
+  .navBarContentWrapper {
+    flex-direction: column; /* Stack items vertically on mobile */
+  }
+}

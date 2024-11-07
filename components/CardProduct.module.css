@@ -13,10 +13,18 @@
   height: 100%;
 }
 
+ .imageControl {
+ overflow: hidden;
+  width: 100%;
+  height: auto; 
+  object-fit: cover;
+}
+
 .fashionItem img {
   width: 100%;
   height: 300px;
   object-fit: cover;
+ overflow-y: hidden;
 }
 
 .fashionItem h3 {
@@ -26,7 +34,7 @@
   font-weight: 700;
 }
 
-.incriment {
+.increment {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,15 +52,17 @@
   user-select: none;
 }
 
-.quanty {
+.quantity {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .starPrice {
+  margin-top: 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -72,6 +82,11 @@
   font-size: 21px;
   font-weight: 400;
   font-style: italic;
+}
+
+h3 {
+  margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .notes {

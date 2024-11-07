@@ -1,20 +1,35 @@
 .wrapper {
-  max-width: 100%;
-  width: 500px;
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.181);
-  border: 1px solid #cccccc82;
+  width: 65%; /* 70% of the viewport width on all devices */
+  padding: 40px;
+  padding-right: 20px; /* Optional: add right padding if needed for better spacing */
+  margin-left: 0; /* Align to the left with no left margin */
+  background-color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(204, 204, 204, 0.51);
   border-radius: 10px;
-  margin: auto; 
-  margin-top: 50%;
   backdrop-filter: blur(7px);
+  box-sizing: border-box;
+  height: 100vh; /* Full viewport height */
 }
 
+/* Form alignment */
 h3 {
   text-align: left;
 }
 
+.textArea {
+  margin-top: 60px;
+  color: white;
+}
+
+.header {
+  padding-left: 400px;
+  margin-top: 100px;
+  color: white;
+}
+
 .form {
+  width: 60%; /* Full width within the .wrapper */
+  padding: 20px 400px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -42,7 +57,7 @@ h3 {
 label {
   color: rgba(222, 222, 222, 0.856);
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   text-align: left;
 }
 
@@ -51,7 +66,7 @@ select,
 textarea {
   width: 100%;
   padding: 8px;
-  border: 1px solid #cccccce5;
+  border: 1px solid rgba(204, 204, 204, 0.9);
   border-radius: 5px;
   box-sizing: border-box;
 }
@@ -93,27 +108,55 @@ legend {
   margin-right: 5px;
 }
 
-/* Media Queries */
+/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
-  .inputWrapperRow {
-    flex-direction: column;
-  }
-
-  .inputItem {
-    width: 100%; /* Stack inputs in mobile view */
-  }
-
   .wrapper {
-    width: 90%; /* Reduce width for smaller screens */
-     margin: auto; 
-  margin-top: 50%;
+    width: 80%;
+    margin-left: 0;
+    /* padding: 20px; */
+  }
+
+  .inputWrapperRow {
+    flex-direction: column; /* Stack inputs vertically on mobile */
+    gap: 10px;
+  }
+
+.header {
+  padding-left: 20px;
+  margin-top: 50px;
+  color: white;
+}
+
+.form {
+  width: 80%; /* Full width within the .wrapper */
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+  .textArea {
+    margin-top: 20px;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .wrapper {
-    width: 600px;
-      margin: auto; 
-  margin-top: 50%;
+    width: 65%; /* Maintain 70% width on tablet */
+    padding: 30px;
   }
+
+  .header {
+  padding-left: 100px;
+  margin-top: 100px;
+  color: white;
+}
+
+.form {
+  width: 70%; /* Full width within the .wrapper */
+  padding: 20px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 }
