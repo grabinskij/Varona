@@ -8,15 +8,47 @@ const Form = () => {
     email: "",
     country: "",
     message: "",
-    terms: "",
+    terms: "", // Ensure terms is set to an empty string initially
   });
 
   const fullWidthStyles = [styles.inputWrapper, styles.fullWidth].join(" ");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = { ...formFields };
+
+
+
     console.log(data);
+
+    // Example of submitting the form data to a server using fetch (optional)
+    try {
+      const response = await fetch("http://localhost:4000/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        alert("Form submitted successfully!");
+        setFormFields({
+        name: "",
+        surname: "",
+        email: "",
+        country: "",
+        message: "",
+        terms: "", // Reset terms as well
+        });
+        
+      } else {
+        alert("There was an error submitting the form.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("There was a network error.");
+    }
   };
 
   const handleOnChange = (event) => {
@@ -31,14 +63,13 @@ const Form = () => {
     formFields.name &&
     formFields.surname &&
     formFields.email &&
-    formFields.country &&
-    formFields.terms === "yes";
+    formFields.message && // Ensure the message field is included
+    formFields.terms === "yes"; // Make sure 'terms' is explicitly set to 'yes'
 
   return (
     <>
-   
       <div className={styles.wrapper}>
-           <h1 className={styles.header}>Contact Us:</h1>
+        <h1 className={styles.header}>Contact Us:</h1>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputWrapperRow}>
             <div className={styles.inputItem}>
@@ -75,7 +106,6 @@ const Form = () => {
               required
             />
           </div>
-         
           <div className={fullWidthStyles}>
             <label htmlFor="message">Message:</label>
             <textarea
@@ -88,7 +118,9 @@ const Form = () => {
             />
           </div>
           <div className={fullWidthStyles}>
-            <legend style={{ color: 'grey', fontWeight: '200' }}>Do you agree to the terms?</legend>
+            <legend style={{ color: 'grey', fontWeight: '200' }}>
+              Do you agree to the terms?
+            </legend>
             <div className={styles.radioGroup}>
               <label>
                 <input
@@ -121,18 +153,22 @@ const Form = () => {
               Submit
             </button>
 
-            <div className={styles.textArea }>
-             <p style={{fontStyle: "italic", fontFamily: "monospace"}}>
-    We will respond to every email within 24 hours, from Monday to Saturday.
-</p>
+            <div className={styles.textArea}>
+              <p style={{ fontStyle: "italic", fontFamily: "monospace" }}>
+                We will respond to every email within 24 hours, from Monday to Saturday.
+              </p>
 
-<p style={{fontStyle: "italic", fontFamily: "monospace"}}>
-    You can also call us at our toll-free number:  <a href="tel: +4917620652851" style={{color: "inherit", textDecoration: "none"}}>
-        017620652851
-    </a> - from 9AM to 9PM EST Monday to Friday, and 10AM to 9PM EST on Saturday.
-</p>
-       
-              </div>
+              <p style={{ fontStyle: "italic", fontFamily: "monospace" }}>
+                You can also call us at our toll-free number:{" "}
+                <a
+                  href="tel:+4917620652851"
+                  style={{ color: "inherit", textDecoration: "none" }}
+                >
+                  017620652851
+                </a>{" "}
+                - from 9AM to 9PM EST Monday to Friday, and 10AM to 9PM EST on Saturday.
+              </p>
+            </div>
           </div>
         </form>
       </div>
