@@ -1,8 +1,9 @@
 .wrapper {
+    position: fixed;
   width: 65%; /* 70% of the viewport width on all devices */
   padding: 40px;
   padding-right: 20px; /* Optional: add right padding if needed for better spacing */
-  margin-left: 0; /* Align to the left with no left margin */
+  left: 0; /* Align to the left with no left margin */
   background-color: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(204, 204, 204, 0.51);
   border-radius: 10px;
@@ -110,9 +111,20 @@ legend {
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
-  .wrapper {
-left: 0;
-  }
+
+.wrapper {
+  position: fixed;
+  width: 75%; /* 70% of the viewport width on all devices */
+  padding: 25px;
+  padding-right: 15px; /* Optional: add right padding if needed for better spacing */
+left: 0 !important;
+  background-color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(204, 204, 204, 0.51);
+  border-radius: 10px;
+  backdrop-filter: blur(7px);
+  box-sizing: border-box;
+  height: 100vh; /* Full viewport height */
+}
 
   .radioGroup {
   display: flex;
