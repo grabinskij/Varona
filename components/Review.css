@@ -1,0 +1,164 @@
+.review-component {
+  margin-left: 5%;
+  margin-top: 70px;
+  width: 25%; /* 70% of the viewport width on all devices */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(204, 204, 204, 0.51);
+  border-radius: 10px;
+  backdrop-filter: blur(7px);
+  box-sizing: border-box;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.radio{
+  display: none;
+}
+
+h2 {
+  color: white;
+  text-align: left;
+}
+
+.image-upload {
+  cursor: pointer;
+  text-align: center;
+  background-color: #e4e5e9;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.preview-img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+textarea {
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #000000;
+}
+
+.reviews-list {
+  margin-top: 20px;
+}
+
+.review-item {
+  display: flex;
+  gap: 15px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.review-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-stars {
+  display: flex;
+  gap: 3px;
+}
+
+.review-text {
+  flex-grow: 1;
+  color: #000000;
+}
+
+@media (max-width: 768px) {
+  
+    .fon {
+    background-size: cover; /* Cover the entire element while maintaining aspect ratio */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    position: relative;
+    height: 100%;
+    width: 100vw; /* Full viewport width */
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    color: white; /* Ensure text is visible over the background */
+    text-align: center;
+}
+  
+    .sloganBlog {
+        top: 30vh;
+        right: 5vw;
+        text-align: center; /* Center text in mobile */
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+  
+    h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+  .review-component {
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 70px;
+  width: 70%; /* 70% of the viewport width on all devices */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(204, 204, 204, 0.51);
+  border-radius: 10px;
+  backdrop-filter: blur(7px);
+  box-sizing: border-box;
+}
+  }
+
+/* Tablet Styling */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .review-component {
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 70px;
+  width: 70%; /* 70% of the viewport width on all devices */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(204, 204, 204, 0.51);
+  border-radius: 10px;
+  backdrop-filter: blur(7px);
+  box-sizing: border-box;
+}
+}

@@ -1,6 +1,7 @@
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedVideo } from '@cloudinary/react';
 import styles from "./OurStory.module.css";
+import Review from '../../components/Review';
 
 const OurStory = () => {
   // Initialize Cloudinary instance with your cloudName
@@ -15,14 +16,22 @@ const OurStory = () => {
 
   return (
     <div>
-      {/* AdvancedVideo component for optimized Cloudinary video */}
+      {/* Video Element */}
       <AdvancedVideo cldVid={video} loop autoPlay muted controls={false} />
+      
+      {/* Overlay Section */}
       <div className={styles.overlay}>
-        <div className={styles.epigraph}>
-          <p> {/* Your text content goes here */} </p>
-        </div>
+        <Review />
       </div>
+      <div>
+      </div>
+        <img 
+            src="https://your-image-url-here.jpg" 
+            alt="Description of the image" 
+            className={styles.image} 
+          />
     </div>
+    
   );
 };
 

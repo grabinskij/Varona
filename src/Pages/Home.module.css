@@ -13,11 +13,12 @@
 }
 
 .sloganBlog {
+text-align: left;
     z-index: 1;
     padding: 20px;
-    position: absolute;
+    position: fixed;
     top: 35vh; /* Position content about a third from the top */
-    right: 10vw;
+    /* right: 10vw; */
 }
 
 /* Button Styling */
@@ -27,7 +28,7 @@
     width: 170px;
     height: 50px;
     background-color: rgb(37, 40, 1);
-    color: white;
+    color: rgb(204, 204, 204);
     border: none;
     padding: 10px 30px;
     border-radius: 5px;
@@ -45,12 +46,12 @@
 h1 {
     font-size: 54px;
     font-family: "Playfair Display", serif;
-    color: rgb(0, 0, 0);
+    color: rgb(254, 249, 224);
     font-style: italic;
 }
 
 h2 {
-    color: rgb(20, 13, 13);
+    color: rgb(254, 249, 224);
     font-size: 26px;
     font-weight: 300;
     font-style: italic;
