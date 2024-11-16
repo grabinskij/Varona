@@ -138,7 +138,7 @@ button:hover {
   margin-right: 15%;
   margin-top: 70px;
   width: 70%; /* 70% of the viewport width on all devices */
-  padding: 20px;
+  padding: 10px;
   background-color: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(204, 204, 204, 0.51);
   border-radius: 10px;
@@ -149,16 +149,5 @@ button:hover {
 
 /* Tablet Styling */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .review-component {
-  margin-left: 15%;
-  margin-right: 15%;
-  margin-top: 70px;
-  width: 70%; /* 70% of the viewport width on all devices */
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(204, 204, 204, 0.51);
-  border-radius: 10px;
-  backdrop-filter: blur(7px);
-  box-sizing: border-box;
-}
+
 }

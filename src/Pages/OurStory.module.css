@@ -1,24 +1,87 @@
-video {
+/* Responsive Video Container */
+.videoContainer {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the video covers the entire area */
-  position: absolute; /* Makes the video cover the .rolik div */
-  top: 0;
-  left: 0;
+  height: 100vh; /* Full screen height for video */
+  overflow: hidden;
+  position: relative;
 }
 
+/* Ensures the video covers the entire viewport without distortion */
+.advancedVideo video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Full-Screen Image Container */
+.imageContainer {
+  width: 100%;
+  height: 100vh; /* Full screen height for image */
+}
+
+.fullScreenImage {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* Overlay for content over the video */
 .overlay {
-  background-color: rgba(0, 0, 0, 0.477); /* Semi-transparent black overlay */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  position: absolute;
-  z-index: 1; /* Ensures the overlay is above the video */
   display: flex;
-  justify-content: flex-start; /* Align content to the right */
-  align-items: center; /* Centers content vertically */
-  color: white; /* Text color for overlay content */
-  padding: 20px; /* Add some padding */
-  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.3); /* Dark transparent overlay */
+}
+
+/* Responsive Fashion Network Logo */
+.fashionNetwork {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 1000px; /* Adjusted to be closer to the bottom of the viewport */
+  max-width: 100%;
+  width: 25vw; /* 25% of the viewport width for responsive scaling */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensures the logo fits without any white gaps */
+  cursor: pointer; /* Indicates it's a clickable element */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Hover Effect for the Logo */
+.fashionNetwork:hover {
+  transform: translateX(-50%) scale(1.1); /* Scales up slightly on hover */
+  opacity: 0.9; /* Adds a subtle opacity change */
+}
+
+/* Media Queries for Responsiveness */
+
+/* Medium devices (tablets) */
+@media (max-width: 1024px) {
+  .fashionNetwork {
+    width: 35vw; /* Increase size for tablet view */
+    top: 1000px; /* Adjust position */
+  }
+}
+
+/* Small devices (phones) */
+@media (max-width: 768px) {
+  .fashionNetwork {
+    width: 45vw; /* Increase size for mobile view */
+    top: 1000px; /* Adjust position */
+  }
+}
+
+@media (max-width: 480px) {
+  .fashionNetwork {
+    width: 50vw; /* Larger size for very small screens */
+    top: 70vh; /* Adjust position */
+  }
 }

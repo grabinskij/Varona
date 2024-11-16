@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import "../components/Review.css";
 
-const Review = () => {
+const Review = ({ onSubmit }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [message, setMessage] = useState("");
@@ -33,6 +33,9 @@ const Review = () => {
       setHover(null);
       setMessage("");
       setImage(null);
+
+      // Call the onSubmit function to open the modal
+      if (onSubmit) onSubmit();
     } else {
       alert("Please provide a rating and a review message.");
     }
@@ -87,29 +90,6 @@ const Review = () => {
         {/* Submit Button */}
         <button type="submit">Submit Review</button>
       </form>
-
-      {/* Display Reviews */}
-      <div className="reviews-list">
-        {reviews.map((review, index) => (
-          <div key={index} className="review-item">
-            {review.image && (
-              <img src={review.image} alt="User" className="review-img" />
-            )}
-            <div className="review-content">
-              <div className="review-stars">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    color={i < review.rating ? "#ffc107" : "#e4e5e9"}
-                    size={20}
-                  />
-                ))}
-              </div>
-              <p className="review-message">{review.message}</p>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };

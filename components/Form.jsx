@@ -1,15 +1,19 @@
+
 import styles from "./Form.module.css";
 import { useState } from "react";
+import SubmitModal from "./SubmitModal";
 
 const Form = () => {
   const [formFields, setFormFields] = useState({
     name: "",
     surname: "",
     email: "",
-    country: "",
     message: "",
-    terms: "", // Ensure terms is set to an empty string initially
+    terms: "",
   });
+
+  // State to handle modal visibility
+  const [openModal, setOpenModal] = useState(false);
 
   const fullWidthStyles = [styles.inputWrapper, styles.fullWidth].join(" ");
 
@@ -17,11 +21,6 @@ const Form = () => {
     event.preventDefault();
     const data = { ...formFields };
 
-
-
-    console.log(data);
-
-    // Example of submitting the form data to a server using fetch (optional)
     try {
       const response = await fetch("http://localhost:4000/api/users", {
         method: "POST",
@@ -32,16 +31,17 @@ const Form = () => {
       });
 
       if (response.ok) {
-        alert("Form submitted successfully!");
+        // Reset form fields
         setFormFields({
-        name: "",
-        surname: "",
-        email: "",
-        country: "",
-        message: "",
-        terms: "", // Reset terms as well
+          name: "",
+          surname: "",
+          email: "",
+          message: "",
+          terms: "",
         });
-        
+
+        // Open the modal after successful form submission
+        setOpenModal(true);
       } else {
         alert("There was an error submitting the form.");
       }
@@ -63,8 +63,8 @@ const Form = () => {
     formFields.name &&
     formFields.surname &&
     formFields.email &&
-    formFields.message && // Ensure the message field is included
-    formFields.terms === "yes"; // Make sure 'terms' is explicitly set to 'yes'
+    formFields.message &&
+    formFields.terms === "yes";
 
   return (
     <>
@@ -118,7 +118,7 @@ const Form = () => {
             />
           </div>
           <div className={fullWidthStyles}>
-            <legend style={{ color: 'grey', fontWeight: '200' }}>
+            <legend style={{ color: "grey", fontWeight: "200" }}>
               Do you agree to the terms?
             </legend>
             <div className={styles.radioGroup}>
@@ -148,30 +148,16 @@ const Form = () => {
             <button
               className={styles.button}
               type="submit"
-              disabled={!isFormValid} // Disable the button if form is invalid
+              disabled={!isFormValid}
             >
               Submit
             </button>
-
-            <div className={styles.textArea}>
-              <p style={{ fontStyle: "italic", fontFamily: "monospace" }}>
-                We will respond to every email within 24 hours, from Monday to Saturday.
-              </p>
-
-              <p style={{ fontStyle: "italic", fontFamily: "monospace" }}>
-                You can also call us at our toll-free number:{" "}
-                <a
-                  href="tel:+4917620652851"
-                  style={{ color: "inherit", textDecoration: "none" }}
-                >
-                  017620652851
-                </a>{" "}
-                - from 9AM to 9PM EST Monday to Friday, and 10AM to 9PM EST on Saturday.
-              </p>
-            </div>
           </div>
         </form>
       </div>
+
+      {/* Conditionally render the SubmitModal and pass onClose function */}
+      {openModal && <SubmitModal onClose={() => setOpenModal(false)} />}
     </>
   );
 };

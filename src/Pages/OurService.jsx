@@ -5,6 +5,7 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import styles from "./OurService.module.css";
 
+
 const cld = new Cloudinary({
   cloud: {
     cloudName: "dwenvtwyx",
@@ -145,21 +146,17 @@ const OurService = () => {
       </section>
 
       <section className={styles.miaLogoContainer}>
-        <a
-          href="https://www.mia-lejournal.com/fashion/569-the-beauty-of-solitude.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <div onClick={() => openImageModal("IMG_2624_qepkei")}>
           <AdvancedImage className={styles.fullWidthImage}
             cldImg={getImage("IMG_2624_qepkei")}
             alt="Miale Journal"
           />
           <img
             className={styles.miaLogo}
-            src="your-cloudinary-url-for-mialogo"
+            src="/src/assets/LOGO-MIA.png"
             alt="MIA Logo"
           />
-        </a>
+          </div>
       </section>
 
       <section className={styles.sectionService}>
