@@ -16,6 +16,17 @@ const OurStory = () => {
   // Fetch the video by its public ID
   const video = cld.video('Podium_be5hn5');
 
+  const logo = cld.image('fashion-network-logo_apwgif');
+logo.format('webp').quality(80); // Optional settings for format and quality
+
+  // List of image public IDs from Cloudinary (use your own image public IDs here)
+  const imagePublicIds = [ // Replace with your image public ID from Cloudinary
+    'capotto_iaam9k', // Replace with your image public ID from Cloudinary
+    'pantaloni_loyblc', // Replace with your image public ID from Cloudinary
+    'impermiabile_agbvg3', // Replace with your image public ID from Cloudinary
+    'abito_h4xf2u'
+  ];
+
   // State to manage the modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -53,21 +64,27 @@ const OurStory = () => {
       >
         <img
           className={styles.fashionNetwork}
-          src="/src/assets/fashion-network-logo.webp"
+          src={logo.toURL("https://res.cloudinary.com/dwenvtwyx/image/upload/v1731777892/fashion-network-logo_apwgif.webp")} // Dynamically generated URL from Cloudinary
           alt="Fashion Podium"
         />
       </a>
 
-      {/* Additional Images */}
-      {['impermiabile.png', 'abito.png', 'sarafan.png', 'pantaloni.png', 'trasparente.png'].map((image, index) => (
-        <div className={styles.imageContainer} key={index}>
-          <img
-            src={`/src/assets/${image}`}
-            alt={`Fashion Podium ${index}`}
-            className={styles.fullScreenImage}
-          />
-        </div>
-      ))}
+      {/* Cloudinary Image Section */}
+      <div className={styles.imageGallery}>
+        {imagePublicIds.map((imageId, index) => {
+          const image = cld.image(imageId); // Create a Cloudinary image object using the public ID
+          image.format('webp').quality(80); // Customize the image settings (optional)
+          return (
+            <div className={styles.imageContainer} key={index}>
+              <img
+                src={image.toURL()} // Get the URL for the image
+                alt={`Cloudinary Image ${index}`}
+                className={styles.fullScreenImage}
+              />
+            </div>
+          );
+        })}
+      </div>
 
       {/* Overlay Section (Modal and Review) */}
       <div className={styles.overlay}>
