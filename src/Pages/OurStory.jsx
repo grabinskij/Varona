@@ -49,13 +49,13 @@ logo.format('webp').quality(80); // Optional settings for format and quality
       </div>
 
       {/* Full-Screen Image Immediately After Video */}
-      <div className={styles.imageContainer}>
+      {/* <div className={styles.imageContainer}>
         <img
           src="/src/assets/green.png"
           alt="Fashion Podium"
           className={styles.fullScreenImage}
         />
-      </div>
+      </div> */}
 
       {/* Clickable Link with Fashion Network Logo */}
       <a
