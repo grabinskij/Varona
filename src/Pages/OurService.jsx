@@ -151,10 +151,9 @@ const OurService = () => {
             cldImg={getImage("IMG_2624_qepkei")}
             alt="Miale Journal"
           />
-          <img
-            className={styles.miaLogo}
-            src="/src/assets/LOGO-MIA.png"
-            alt="MIA Logo"
+         <AdvancedImage className={styles.miaLogo}
+            cldImg={getImage("MIALEJOURNAL_BLACK_rwcikd")}
+            alt="Miale Journal"
           />
           </div>
       </section>

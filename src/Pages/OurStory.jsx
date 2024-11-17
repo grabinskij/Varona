@@ -21,7 +21,7 @@ logo.format('webp').quality(80); // Optional settings for format and quality
 
   // List of image public IDs from Cloudinary (use your own image public IDs here)
   const imagePublicIds = [ // Replace with your image public ID from Cloudinary
-     'green_cev8bm',
+    'green_cev8bm',
     'capotto_iaam9k', // Replace with your image public ID from Cloudinary
     'pantaloni_loyblc', // Replace with your image public ID from Cloudinary
     'impermiabile_agbvg3', // Replace with your image public ID from Cloudinary
