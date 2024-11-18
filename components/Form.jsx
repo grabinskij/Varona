@@ -8,7 +8,7 @@ const Form = () => {
     surname: "",
     email: "",
     message: "",
-    terms: "",
+    terms: "no", // Initialize terms to "no" (valid value)
   });
 
   // State to handle modal visibility
@@ -38,13 +38,13 @@ const Form = () => {
       });
 
       if (response.ok) {
-        // Reset form fields
+        // Reset form fields, but keep terms as 'yes' or 'no' based on user input
         setFormFields({
           name: "",
           surname: "",
           email: "",
           message: "",
-          terms: "",
+          terms: formFields.terms, // Keep the terms value as is
         });
 
         // Open the modal after successful form submission
