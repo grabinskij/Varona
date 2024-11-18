@@ -17,7 +17,7 @@ export default defineConfig({
     // Setup a proxy for API requests to avoid CORS issues
     proxy: {
       '/api': {
-        target: 'https://www.nataliyarodionova.com',
+        target: process.env.NODE_ENV === 'production' ? 'https://www.nataliyarodionova.com' : 'http://localhost:4000', // Check the environment
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ''), // Removes '/api' prefix

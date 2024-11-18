@@ -1,4 +1,3 @@
-
 import styles from "./Form.module.css";
 import { useState } from "react";
 import SubmitModal from "./SubmitModal";
@@ -17,12 +16,20 @@ const Form = () => {
 
   const fullWidthStyles = [styles.inputWrapper, styles.fullWidth].join(" ");
 
+  // Function to get the correct API endpoint based on environment
+  const getApiUrl = () => {
+    if (process.env.NODE_ENV === 'production') {
+      return 'https://www.nataliyarodionova.com/api/submit'; // Production URL
+    }
+    return 'http://localhost:4000/api/submit'; // Local development URL
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = { ...formFields };
 
     try {
-      const response = await fetch("http://localhost:4000/api/users", {
+      const response = await fetch(getApiUrl(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
