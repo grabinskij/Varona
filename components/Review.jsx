@@ -1,75 +1,157 @@
-import { useState } from "react";
+import styles from "./Review.module.css";
+import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
-import "../components/Review.css";
+import SubmitModal from "./SubmitModal";
 
-const Review = ({ onSubmit }) => {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(null);
-  const [message, setMessage] = useState("");
-  const [image, setImage] = useState(null);
+const Review = () => {
+  const [reviewFields, setReviewFields] = useState({
+    rating: 0,
+    message: "",
+    image: null,
+  });
+
   const [reviews, setReviews] = useState([]);
+  const [hover, setHover] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Function to get the correct API endpoint based on environment
+  const getApiUrl = () => {
+    if (process.env.NODE_ENV === "production") {
+      return "https://www.nataliyarodionova.com/api/reviews"; // Production URL
+    }
+    return "http://localhost:4000/api/reviews"; // Local development URL
+  };
+
+  // Function to handle closing the modal
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  // Function to handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setReviewFields((prevState) => ({
+          ...prevState,
+          image: reader.result,
+        }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (rating && message) {
-      const newReview = {
-        rating,
-        message,
-        image,
-      };
-      setReviews([newReview, ...reviews]);
-      setRating(0);
-      setHover(null);
-      setMessage("");
-      setImage(null);
+  // Function to handle input changes for rating and message
+  const handleOnChange = (event) => {
+    const { name, value } = event.target;
+    setReviewFields((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-      // Call the onSubmit function to open the modal
-      if (onSubmit) onSubmit();
-    } else {
+  // Handle rating click
+  const handleRatingClick = (ratingValue) => {
+    setReviewFields((prevState) => ({
+      ...prevState,
+      rating: ratingValue,
+    }));
+  };
+
+  // Function to fetch existing reviews
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(getApiUrl(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (response.ok) {
+        const reviewsData = await response.json();
+        setReviews(reviewsData);
+      } else {
+        console.error("Failed to fetch reviews");
+      }
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  // Fetch reviews on component mount
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = { ...reviewFields };
+
+    // Check if rating and message are provided
+    if (!data.rating || !data.message.trim()) {
       alert("Please provide a rating and a review message.");
+      return;
+    }
+
+    console.log("Submitting review:", data);
+
+    try {
+      const response = await fetch(getApiUrl(), {
+        method: "POST",
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        body: JSON.stringify(data),
+        credentials: "include", // Ensure cookies are sent if needed
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+
+        // Add new review to the state and reset form fields
+        setReviews([result.data, ...reviews]);
+        setReviewFields({ rating: 0, message: "", image: null });
+        setHover(null);
+        setIsModalOpen(true); // Open the success modal
+      } else {
+        const errorData = await response.json();
+        console.error("Error response from server:", errorData);
+        alert("There was an error submitting the review.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to submit the review. Please try again.");
     }
   };
 
   return (
-    <div className="review-component">
-      <form onSubmit={handleSubmit} className="review-form">
+    <div className={styles.reviewComponent}>
+      <form onSubmit={handleSubmit} className={styles.reviewForm}>
         <h2>Leave a Review</h2>
 
         {/* Image Upload */}
-        <label className="image-upload">
+        <label className={styles.imageUpload}>
           <input type="file" accept="image/*" onChange={handleImageChange} />
-          {image && <img src={image} alt="Review" className="preview-img" />}
+          {reviewFields.image && (
+            <img src={reviewFields.image} alt="Review" className={styles.previewImg} />
+          )}
         </label>
 
         {/* Star Rating */}
-        <div className="star-rating">
+        <div className={styles.starRating}>
           {[...Array(5)].map((_, index) => {
             const ratingValue = index + 1;
             return (
               <label key={index}>
                 <input
-                  className="radio"
+                  className={styles.radio}
                   type="radio"
                   name="rating"
                   value={ratingValue}
-                  onClick={() => setRating(ratingValue)}
+                  onClick={() => handleRatingClick(ratingValue)}
                 />
                 <FaStar
-                  className="star"
-                  color={
-                    ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"
-                  }
+                  className={styles.star}
+                  color={ratingValue <= (hover || reviewFields.rating) ? "#ffc107" : "#e4e5e9"}
                   size={20}
                   onMouseEnter={() => setHover(ratingValue)}
                   onMouseLeave={() => setHover(null)}
@@ -82,14 +164,42 @@ const Review = ({ onSubmit }) => {
         {/* Message */}
         <textarea
           placeholder="Write your review..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          name="message"
+          value={reviewFields.message}
+          onChange={handleOnChange}
           required
+          className={styles.textArea}
         ></textarea>
 
         {/* Submit Button */}
-        <button type="submit">Submit Review</button>
+        <button type="submit" className={styles.button}>
+          Submit Review
+        </button>
       </form>
+
+      {/* Display Reviews */}
+      <div className={styles.reviewsList}>
+        {reviews.map((review, index) => (
+          <div key={index} className={styles.reviewItem}>
+            {review.image && <img src={review.image} alt="User" className={styles.reviewImg} />}
+            <div className={styles.reviewContent}>
+              <div className={styles.reviewStars}>
+                {[...Array(5)].map((_, i) => (
+                  <FaStar
+                    key={i}
+                    color={i < review.rating ? "#ffc107" : "#e4e5e9"}
+                    size={20}
+                  />
+                ))}
+              </div>
+              <p className={styles.reviewMessage}>{review.message}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Submit Modal */}
+      {isModalOpen && <SubmitModal onClose={handleCloseModal} />}
     </div>
   );
 };

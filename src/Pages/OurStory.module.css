@@ -42,7 +42,7 @@
   align-items: center;
   justify-content: center;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.3); /* Dark transparent overlay */
+  background-color: rgba(0, 0, 0, 0.642); /* Dark transparent overlay */
 }
 
 /* Responsive Fashion Network Logo */

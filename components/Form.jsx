@@ -28,6 +28,8 @@ const Form = () => {
     event.preventDefault();
     const data = { ...formFields };
 
+    console.log('Submitting data:', data);
+
     try {
       const response = await fetch(getApiUrl(), {
         method: "POST",
@@ -44,7 +46,7 @@ const Form = () => {
           surname: "",
           email: "",
           message: "",
-          terms: formFields.terms, // Keep the terms value as is
+          terms: "yes", // Keep the terms value as is
         });
 
         // Open the modal after successful form submission

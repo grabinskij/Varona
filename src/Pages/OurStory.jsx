@@ -48,16 +48,6 @@ logo.format('webp').quality(80); // Optional settings for format and quality
         <AdvancedVideo cldVid={video} loop autoPlay muted controls={false} />
       </div>
 
-      {/* Full-Screen Image Immediately After Video */}
-      {/* <div className={styles.imageContainer}>
-        <img
-          src="/src/assets/green.png"
-          alt="Fashion Podium"
-          className={styles.fullScreenImage}
-        />
-      </div> */}
-
-      {/* Clickable Link with Fashion Network Logo */}
       <a
         href="https://de.fashionnetwork.com/fotogalerien/photos/Varona-by-Nataliya-Rodionova,33328.html"
         target="_blank"
