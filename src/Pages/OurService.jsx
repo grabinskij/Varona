@@ -4,6 +4,8 @@ import { AdvancedImage } from "@cloudinary/react";
 import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import styles from "./OurService.module.css";
+import { position } from "@cloudinary/url-gen/qualifiers/timeline";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 
 const cld = new Cloudinary({
@@ -144,18 +146,24 @@ const OurService = () => {
   </div>
   <div className={styles.logoContainer}>
     <AdvancedImage 
+    style ={{
+      width: "100px",       
+      height: "auto",        
+      objectFit: "contain",  
+      cursor: "pointer"  
+    }}
       className={styles.miaLogo}
-      cldImg={getImage("fashion-network-logo-white_cnbvqt")}
+      cldImg={getImage("MIALEJOURNAL_BLACK_rwcikd")}
       alt="MiaJournal Logo"
     />
   </div>
 </section>
 
 
-      <section className={styles.sectionService}>
+      <section style={{backgroundColor:"beige"}} className={styles.sectionService}>
         <div className={styles.textContainer}>
-          <h1>Our Service:</h1>
-          <p>
+          <h1 style={{color: "black" }}>Our Service:</h1>
+          <p style={{color: "black" }}>
             We specialize in creating exclusive, handmade items and accessories tailored for both men and women. Using only premium natural materials, we craft each piece with care and precision, ensuring it reflects the individuality of its wearer. Whether it’s a bespoke garment or a custom accessory, we’re here to turn your boldest visions into reality. At the heart of our service is a commitment to excellence and personal connection, where every creation is a masterpiece designed to inspire confidence, elegance, and timeless style.
           </p>
         </div>
@@ -170,7 +178,7 @@ const OurService = () => {
         </div>
       </section>
 
-      <section style={{ backgroundColor: "#0e094bdd" }} className={styles.sectionCustomers}>
+      <section style={{ backgroundColor: "#00402b" }} className={styles.sectionCustomers}>
         <div className={styles.textContainer}>
           <h1>Collaboration:</h1>
           <p>
@@ -188,10 +196,10 @@ const OurService = () => {
         </div>
       </section>
 
-      <section className={styles.sectionCustomers}>
+      <section style={{backgroundColor:"black"}} className={styles.sectionCustomers}>
         <div className={styles.textContainer}>
-          <h1 style={{ color: "white" }}>Our Clients:</h1>
-          <p style={{ color: "white" }}>
+          <h1 style={{color: "beige" }}>Our Clients:</h1>
+          <p style={{ color: "beige" }}>
             Our clients are bold, creative, and expressive individuals who see fashion as a medium for storytelling and self-expression. They span a wide age range from 20 to 100+, embracing diversity in gender and life experiences, with a shared passion for originality and innovation. Artists are drawn to our visually striking and conceptually rich designs. Creators seek avant-garde, experimental styles that align with their boundary-pushing mindsets. Performers, including actors and musicians, value our pieces as essential elements of their public personas. Lastly, fashion-forward individuals, always ahead of trends, invest in our unique, high-quality wardrobe staples that embody individuality. Globally connected, they are united by their appreciation for niche, unconventional fashion.
           </p>
         </div>
