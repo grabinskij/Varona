@@ -7,21 +7,30 @@
   --color-customers: #69056e;
   display: flex;
   flex-direction: column;
-
-  height: 100%; /* Ensures the root element takes the full viewport height */
+  min-height: 100vh;
+  /* height: 100%; */
 }
 
-html,
+/* html,
 body {
   height: 100%; 
   background-image: url("https://res.cloudinary.com/dwenvtwyx/image/upload/v1729599028/MATTEO9_evbaep.webp");
   background-size: cover;
-  /* background-position: top; */
+  background-position: top;
     margin: 0;
     padding: 0;
     width: 100%;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-  }
+    overflow-x: hidden; 
+  } */
+  
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
 
 .app-container {
   /* background-size: cover; */

@@ -16,7 +16,10 @@ const cld = new Cloudinary({
 });
 
 // Replace with your public ID from Cloudinary
-const backgroundImage = cld.image('MATTEO9_evbaep');
+
+const backgroundImage = cld.image('MATTEO9_evbaep')
+.format('auto')
+.quality('auto');
 
 const Home = () => {
   const navigate = useNavigate();
@@ -29,7 +32,7 @@ const Home = () => {
     <div className={styles.fon}>
       <AdvancedImage 
         cldImg={backgroundImage}
-        className = {styles.fon}
+        className={styles.backgroundImage}
         modifiers={[auto({ aspectRatio: 'auto' })]} // Adjust the image size automatically
       />
       <div className={styles.sloganBlog}>
