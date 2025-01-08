@@ -73,10 +73,13 @@ logo.format('webp').quality(80); // Optional settings for format and quality
                 className={styles.fullScreenImage}
               />
             </div>
+      
           );
         })}
       </div>
-
+      <section className={styles.review}>
+        <h1 style={{color:'black'}}>What our client says:</h1>
+      </section>
       {/* Overlay Section (Modal and Review) */}
       <div className={styles.overlay}>
         {/* SubmitModal will open only when handleOpenModal is called */}

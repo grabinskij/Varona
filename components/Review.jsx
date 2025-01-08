@@ -161,6 +161,9 @@ const Review = () => {
           })}
         </div>
 
+        <input type="text"
+         placeholder="Name" />
+
         {/* Message */}
         <textarea
           placeholder="Write your review..."
@@ -170,6 +173,7 @@ const Review = () => {
           required
           className={styles.textArea}
         ></textarea>
+
 
         {/* Submit Button */}
         <button type="submit" className={styles.button}>

@@ -10,6 +10,10 @@
   background-color: black; /* Fallback color for video loading */
 }
 
+.review {
+  padding: 20px;
+}
+
 /* Ensures the video covers the entire viewport without distortion */
 .advancedVideo video {
   width: 100%;
