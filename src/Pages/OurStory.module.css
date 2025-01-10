@@ -69,6 +69,27 @@
   opacity: 0.9; /* Adds a subtle opacity change */
 }
 
+.reviewsList {
+  margin-top: 20px;
+}
+
+.reviewItem {
+  display: flex;
+  gap: 15px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.reviewImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* Media Queries for Responsiveness */
 
 /* Medium devices (tablets) */
