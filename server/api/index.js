@@ -1,12 +1,10 @@
-// ===============Express Server=============
-
 // const express = require('express');
 // const mongoose = require('mongoose');
 // const multer = require('multer'); 
 // const cors = require('cors');
 // const dotenv = require('dotenv');
 // const rateLimit = require('express-rate-limit');
-// const Review = require('../Models/Review');
+// const Review = require('./Models/Review');
 // // const User = require('../Models/User');
 // // const { Server } = require('socket.io'); // uncomment if you want to use socket.io
 // const http = require('http');
@@ -269,6 +267,7 @@
 
 
 
+
 // ===============Adapted Express Server for Vercel=============
 
 const express = require('express');
@@ -339,7 +338,12 @@ const reviewLimiter = rateLimit({
 app.use(express.json({ limit: '10mb' }));
 app.use(cors({
     origin: (origin, callback) => {
-        const allowedOrigins = [FRONTEND_URL_LOCAL, FRONTEND_URL_PROD];
+        const allowedOrigins = [
+            FRONTEND_URL_LOCAL,
+            FRONTEND_URL_PROD,
+            'https://varona-b2cyiz42n-bohdans-projects-4dec6667.vercel.app',
+            'https://varona-dev.vercel.app'
+            ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
