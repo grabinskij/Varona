@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "buildCommand": "cd src && npm run build",
-  "outputDirectory": "src/dist",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "builds": [
     {
       "src": "server/api/index.js",
       "use": "@vercel/node"
     },
     {
-      "src": "src/**",
+      "src": "dist/**",
       "use": "@vercel/static"
     }
   ],
@@ -19,7 +19,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "src/$1"
+      "dest": "/dist/$1"
     }
   ]
 }
