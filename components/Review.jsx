@@ -3,7 +3,7 @@ import styles from "./Review.module.css";
 import { useState, useEffect, useCallback } from "react";
 import { FaStar } from "react-icons/fa";
 import SubmitModal from "./SubmitModal";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 const Review = ({setReviews, setError}) => {
   const [reviewFields, setReviewFields] = useState({
@@ -25,30 +25,30 @@ const Review = ({setReviews, setError}) => {
   };
 
   // Initialize WebSocket connection
-  useEffect(() => {
-    const socketUrl =
-    import.meta.env.VITE_NODE_ENV === "production"
-      ? import.meta.env.VITE_SOCKET_URL_PROD
-      : import.meta.env.VITE_SOCKET_URL_LOCAL
+  // useEffect(() => {
+  //   const socketUrl =
+  //   import.meta.env.VITE_NODE_ENV === "production"
+  //     ? import.meta.env.VITE_SOCKET_URL_PROD
+  //     : import.meta.env.VITE_SOCKET_URL_LOCAL
 
-    const socket = io(socketUrl, {
-      withCredentials: true
-    });
+  //   const socket = io(socketUrl, {
+  //     withCredentials: true
+  //   });
 
-    socket.on('connect', () => {
-      console.log('Connected to WebSocket');
-    });
+  //   socket.on('connect', () => {
+  //     console.log('Connected to WebSocket');
+  //   });
 
-    socket.on('reviewApproved', (newReview) => {
-      setReviews(prevReviews => [newReview, ...prevReviews]);
-    });
+  //   socket.on('reviewApproved', (newReview) => {
+  //     setReviews(prevReviews => [newReview, ...prevReviews]);
+  //   });
 
-    socket.on('connect_error', (error) => {
-      console.error('WebSocket connection error:', error);
-    });
+  //   socket.on('connect_error', (error) => {
+  //     console.error('WebSocket connection error:', error);
+  //   });
 
-    return () => socket.disconnect();
-  }, []);
+  //   return () => socket.disconnect();
+  // }, []);
 
   // Fetch existing reviews
   const fetchReviews = useCallback(async () => {
