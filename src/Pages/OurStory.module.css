@@ -10,6 +10,10 @@
   background-color: black; /* Fallback color for video loading */
 }
 
+.review {
+  padding: 20px;
+}
+
 /* Ensures the video covers the entire viewport without distortion */
 .advancedVideo video {
   width: 100%;
@@ -63,6 +67,27 @@
 .fashionNetwork:hover {
   transform: translateX(-50%) scale(1.1); /* Scales up slightly on hover */
   opacity: 0.9; /* Adds a subtle opacity change */
+}
+
+.reviewsList {
+  margin-top: 20px;
+}
+
+.reviewItem {
+  display: flex;
+  gap: 15px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.reviewImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* Media Queries for Responsiveness */

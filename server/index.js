@@ -1,147 +1,269 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const multer = require('multer'); 
 const cors = require('cors');
 const dotenv = require('dotenv');
+const rateLimit = require('express-rate-limit');
+const Review = require('./Models/Review');
+// const User = require('./Models/User');
+const { Server } = require('socket.io');
+const http = require('http');
+const sanitizeHtml = require('sanitize-html');
+
+
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
 const app = express();
+const server = http.createServer(app);
 
-// Load environment variables from .env file
-dotenv.config();
+// Load environment variables
+dotenv.config({ path: './.env.local' });
 
-// Check if the required environment variables are loaded
-const { MONGO_URI, PORT, FRONTEND_URL_LOCAL, FRONTEND_URL_PROD, NODE_ENV } = process.env;
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', true);
+}
 
-// Validate environment variables
-if (!MONGO_URI) {
-    console.error('MongoDB URI is missing. Please check your .env file.');
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: {
+        folder: 'reviews', 
+        allowed_formats: ['jpg', 'jpeg', 'png'],
+        // transformation: [{ width: 1000, height: 1000, crop: 'limit' }], 
+    }, 
+});
+
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 10 * 1024 * 1024 // 10MB limit
+    },
+    fileFilter: (req, file, cb) => {
+        if (!file.mimetype.startsWith('image/')) {
+            return cb(new Error('Please upload an image file'), false);
+        }
+        cb(null, true);
+    }
+});
+
+
+const { 
+    MONGO_URI, 
+    PORT, 
+    FRONTEND_URL_LOCAL, 
+    FRONTEND_URL_PROD
+} = process.env;
+
+
+if (!MONGO_URI || !PORT || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD) {
+    console.error('Missing required environment variables');
     process.exit(1);
 }
 
-if (!PORT) {
-    console.error('PORT is missing. Please check your .env file.');
-    process.exit(1);
-}
+// Set up Socket.IO
+const io = new Server(server, {
+    cors: {
+        origin: [FRONTEND_URL_LOCAL, FRONTEND_URL_PROD],
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
 
-if (!FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD) {
-    console.error('Frontend URLs are missing. Please check your .env file.');
-    process.exit(1);
-}
+const reviewLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 3, // 3 reviews per IP
+    message: 'Too many reviews submitted. Please try again later.'
+});
 
-// Set default value for NODE_ENV if not specified
-const environment = NODE_ENV || 'development';
-
-// Middleware to parse JSON data
-app.use(express.json());
-
-// Enable CORS based on environment
-const allowedOrigins = [FRONTEND_URL_LOCAL, FRONTEND_URL_PROD];
-const corsOptions = {
+// Middleware
+app.use(express.json({ limit: '10mb' })); // Limit payload size
+app.use(cors({
     origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps, Postman, etc.)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) {
+        const allowedOrigins = [FRONTEND_URL_LOCAL, FRONTEND_URL_PROD];
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-};
-app.use(cors(corsOptions));
+    credentials: true
+}));
 
 
-// Connect to MongoDB
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-    .then(() => console.log('Connected to MongoDB successfully'))
+// MongoDB Connection
+mongoose.connect(MONGO_URI)
+    .then(() => {
+        console.log('Connected to MongoDB');
+        setupChangeStream();
+    })
     .catch((err) => {
-        console.error('MongoDB connection error:', err.message);
+        console.error('MongoDB connection error:', err);
         process.exit(1);
     });
 
-// Import models
-const User = require('./Models/User');
-const Review = require('./Models/Review');
+// Set up MongoDB change stream
+function setupChangeStream() {
+    const changeStream = Review.watch([
+        {
+            $match: {
+                'updateDescription.updatedFields.approved': true
+            }
+        }
+    ]);
 
-// Route: POST /api/submit - Save a new user
-app.post('/api/submit', async (req, res) => {
+    changeStream.on('change', async (change) => {
+        if (change.operationType === 'update') {
+            const updatedReview = await Review.findById(change.documentKey._id)
+                .select('-ipAddress -userAgent');
+            if (updatedReview && updatedReview.approved) {
+                io.emit('reviewApproved', updatedReview);
+            }
+        }
+    });
+
+    changeStream.on('error', error => {
+        console.error('Change stream error:', error);
+        setTimeout(setupChangeStream, 5000); // Retry connection
+    });
+}
+
+
+app.post('/api/reviews', reviewLimiter, upload.single('image'), async (req, res) => { 
     try {
-        const { name, surname, email, message, terms } = req.body;
+        const { name, rating, message } = req.body;
 
-        // Validate required fields
-        if (!name || !surname || !email || !message || terms !== 'yes') {
-            return res.status(400).json({ error: 'All fields are required and terms must be accepted.' });
+        if (!name || !rating || !message) {
+            return res.status(400).json({ 
+                error: 'Name, rating, and message are required' 
+            });
         }
 
-        // Save the form data to MongoDB
-        const user = new User(req.body);
-        const result = await user.save();
-        res.status(201).json({ message: 'Form submitted successfully', data: result });
-    } catch (error) {
-        console.error('Error saving user:', error.message);
-        res.status(500).json({ error: 'Error saving user data' });
-    }
-});
-
-app.post('/api/reviews', async (req, res) => {
-    try {
-        const { rating, message, image } = req.body;
-
-        // Validate the fields
-        if (!rating || !message || rating < 1 || rating > 5 || message.trim().length < 1) {
-            return res.status(400).json({ error: 'Rating (1-5) and a message are required.' });
+        const numericRating = Number(rating);
+        if (isNaN(numericRating) || numericRating < 1 || numericRating > 5) {
+            return res.status(400).json({ 
+                error: 'Rating must be a number between 1 and 5' 
+            });
         }
 
-        // Create a new review document
-        const newReview = new Review({ rating, message, image });
+        // Sanitize inputs
+        const sanitizedMessage = sanitizeHtml(message, {
+            allowedTags: [],
+            allowedAttributes: {}
+        });
+
+        const imageUrl = req.file ? req.file.path : null;
+
+        const newReview = new Review({
+            name: name.trim(),
+            rating: numericRating,
+            message: sanitizedMessage.trim(),
+            image: imageUrl,
+            approved: false,
+            ipAddress: req.ip,
+            // userAgent: req.get('user-agent')
+        });
+
         const savedReview = await newReview.save();
 
-        res.status(201).json({ message: 'Review submitted successfully', data: savedReview });
+        // Remove sensitive data from response
+        const responseReview = {
+            id: savedReview._id,
+            name: savedReview.name,
+            rating: savedReview.rating,
+            message: savedReview.message,
+            image: savedReview.image,
+            createdAt: savedReview.createdAt
+        };
+
+        res.status(201).json({
+            success: true,
+            message: 'Review submitted successfully and pending approval',
+            data: responseReview
+        });
+
     } catch (error) {
-        console.error('Error submitting review:', error.message);
-        if (error.name === 'ValidationError') {
-            res.status(400).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: 'Failed to submit review' });
+        console.error('Error submitting review:', error);
+        
+        if (error instanceof multer.MulterError) {
+            return res.status(400).json({ 
+                error: `File upload error: ${error.message}` 
+            });
         }
+
+        if (error.message && error.message.includes('file size')) {
+            return res.status(400).json({ 
+                error: 'File size too large. Please upload an image less than 5MB.' 
+            });
+        }
+
+        if (error.message && error.message.includes('cloudinary')) {
+            return res.status(400).json({ 
+                error: 'Image upload failed. Please try again with a different image.' 
+            });
+        }
+
+        res.status(500).json({ 
+            error: 'Failed to submit review. Please try again later.' 
+        });
     }
 });
 
-// Route: GET /api/reviews - Fetch all reviews
+app.use((error, req, res, next) => {
+    if (error instanceof multer.MulterError) {
+        return res.status(400).json({
+            error: `Upload error: ${error.message}`
+        });
+    }
+    next(error);
+});
+
+
 app.get('/api/reviews', async (req, res) => {
     try {
-        const reviews = await Review.find().sort({ createdAt: -1 });
+        const reviews = await Review.find({ approved: true })
+            .select('-ipAddress -userAgent')
+            .sort({ createdAt: -1 });
         res.status(200).json(reviews);
     } catch (error) {
-        console.error('Error fetching reviews:', error.message);
+        console.error('Error fetching reviews:', error);
         res.status(500).json({ error: 'Failed to fetch reviews' });
     }
 });
 
-// Catch-all route for 404 errors
 app.use((req, res) => {
     res.status(404).json({ error: 'Endpoint not found' });
 });
 
-// Global error handler middleware
 app.use((err, req, res, next) => {
-    console.error('Server error:', err.message);
+    console.error('Server error:', err);
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start the server
 
-const server = app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
-// Graceful shutdown on termination
-process.on('SIGINT', () => {
+// Graceful shutdown
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+
+function shutdown() {
+    console.log('Shutting down gracefully...');
     server.close(() => {
-        console.log('Server shut down gracefully');
-        mongoose.connection.close();
+        mongoose.connection.close(false, () => {
+            console.log('Server and MongoDB connection closed');
+            process.exit(0);
+        });
     });
-});
+}
+
+
+
+
