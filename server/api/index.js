@@ -1,3 +1,5 @@
+// ===============Express Server=============
+
 // const express = require('express');
 // const mongoose = require('mongoose');
 // const multer = require('multer'); 
@@ -340,9 +342,7 @@ app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
             FRONTEND_URL_LOCAL,
-            FRONTEND_URL_PROD,
-            'https://varona-b2cyiz42n-bohdans-projects-4dec6667.vercel.app',
-            'https://varona-dev.vercel.app'
+            FRONTEND_URL_PROD
             ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
