@@ -74,10 +74,10 @@ const Header = () => {
             )}
             {cartIsOpen && <CartSummary cartItems={cartItems} onClose={() => setCartIsOpen(false)} />}
           </div>
-          <FontAwesomeIcon 
+          {/* <FontAwesomeIcon 
             icon={faUser} 
             className={`${styles.userIcon} ${isContactPage ? styles.whiteIcon : ''}`} 
-          />
+          /> */}
           <FontAwesomeIcon 
             className={`${styles.burgerIcon} ${isContactPage ? styles.whiteIcon : ''}`} 
             onClick={toggleMenu} 
