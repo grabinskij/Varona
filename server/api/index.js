@@ -321,7 +321,7 @@ const upload = multer({
 
 const { 
     MONGO_URI, 
-    FRONTEND_URL_LOCAL, 
+    FRONTEND_URL_LOCAL,
     FRONTEND_URL_PROD
 } = process.env;
 
@@ -341,8 +341,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
-            FRONTEND_URL_LOCAL,
-            FRONTEND_URL_PROD
+            FRONTEND_URL_LOCAL, 
+            FRONTEND_URL_PROD,
+            'https://nataliyarodionova.com/api/reviews',
+            'https://nataliyarodionova.com'
             ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
