@@ -343,8 +343,7 @@ app.use(cors({
         const allowedOrigins = [
             FRONTEND_URL_LOCAL, 
             FRONTEND_URL_PROD,
-            'https://nataliyarodionova.com/api/reviews',
-            'https://nataliyarodionova.com'
+            'https://www.nataliyarodionova.com'
             ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
