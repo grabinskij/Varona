@@ -1,4 +1,4 @@
-// ===============Express Server=============
+// ===============Express.js Server=============
 
 // const express = require('express');
 // const mongoose = require('mongoose');
@@ -270,7 +270,7 @@
 
 
 
-// ===============Adapted Express Server for Vercel=============
+// ===============Adapted Express.js Server for Vercel=============
 
 const express = require('express');
 const mongoose = require('mongoose');
