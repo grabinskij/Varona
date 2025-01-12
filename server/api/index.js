@@ -343,7 +343,8 @@ app.use(cors({
         const allowedOrigins = [
             FRONTEND_URL_LOCAL, 
             FRONTEND_URL_PROD,
-            'https://www.nataliyarodionova.com'
+            'https://www.nataliyarodionova.com',
+            'http://varona.vercel.app'
             ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
