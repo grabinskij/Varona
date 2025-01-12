@@ -3,7 +3,7 @@ import styles from "./Review.module.css";
 import { useState, useEffect, useCallback } from "react";
 import { FaStar } from "react-icons/fa";
 import SubmitModal from "./SubmitModal";
-// import io from "socket.io-client";
+// import io from "socket.io-client";    //uncomment this line if you want to use socket.io
 
 const Review = ({setReviews, setError}) => {
   const [reviewFields, setReviewFields] = useState({
@@ -24,7 +24,7 @@ const Review = ({setReviews, setError}) => {
     return baseUrl
   };
 
-  // Initialize WebSocket connection
+  // Initialize WebSocket connection        //uncomment if you want to use socket.io
   // useEffect(() => {
   //   const socketUrl =
   //   import.meta.env.VITE_NODE_ENV === "production"
@@ -162,8 +162,6 @@ const Review = ({setReviews, setError}) => {
         });
         setHover(null);
         setIsModalOpen(true);
-
-        // alert('Review submitted successfully! It will be visible after approval.');
 
     } catch (error) {
         console.error('Submission error:', error);
