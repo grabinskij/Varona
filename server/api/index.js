@@ -70,7 +70,7 @@ if (!MONGO_URI || !PORT || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD) {
 
 const reviewLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour
-    max: 1, // 3 reviews per IP
+    max: 5, // 3 reviews per IP
     message: 'Too many reviews submitted. Please try again later.'
 });
 
