@@ -71,23 +71,71 @@
 
 .reviewsList {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between each review */
 }
 
 .reviewItem {
   display: flex;
-  gap: 15px;
+  gap: 20px; /* Space between the image and the content */
   background-color: white;
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for a clean look */
+  margin-bottom: 15px;
+  width: 100%; /* Allow full width of the container */
+  max-width: 800px; /* Optional: Limit maximum width for better readability */
 }
 
 .reviewImg {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 200px; /* Large enough to showcase garments */
+  height: 200px;
+  border-radius: 8px; /* Slight rounding for aesthetics */
+  object-fit: cover; /* Ensure the image scales proportionally */
+}
+
+.reviewContent {
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  flex: 1; /* Allow the content to expand naturally */
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between; /* Space between name and stars */
+  align-items: center; /* Align name and stars on the same line */
+  margin-bottom: 10px;
+}
+
+.reviewerName {
+  font-size: 1.5rem; /* Emphasize the reviewer's name */
+  font-weight: bold;
+  color: #333;
+}
+
+.reviewStars {
+  display: flex;
+  gap: 5px; /* Add spacing between stars */
+}
+
+.reviewMessage {
+  font-size: 1rem;
+  color: #555; /* Slightly lighter color for the message */
+  margin-bottom: 10px;
+  line-height: 1.5; /* Increase line spacing for readability */
+}
+
+.reviewDate {
+  font-size: 0.9rem;
+  color: #888; /* Muted color for the date */
+  align-self: flex-end; /* Align date to the bottom-right */
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin: 10px 0;
 }
 
 /* Media Queries for Responsiveness */
