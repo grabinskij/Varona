@@ -78,6 +78,7 @@
 
 .reviewItem {
   display: flex;
+  flex-direction: column;
   gap: 20px; /* Space between the image and the content */
   background-color: white;
   padding: 20px;
@@ -85,51 +86,69 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for a clean look */
   margin-bottom: 15px;
   width: 100%; /* Allow full width of the container */
-  max-width: 800px; /* Optional: Limit maximum width for better readability */
+  max-width: 1000px; /* Optional: Limit maximum width for better readability */
+}
+
+/* Default (Mobile-first) styles */
+.reviewsList {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column; /* Default column layout for mobile */
+  gap: 20px;
+}
+
+.reviewItem {
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  gap: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Full width by default */
+  max-width: 100%; /* Default width for smaller screens */
 }
 
 .reviewImg {
-  width: 200px; /* Large enough to showcase garments */
-  height: 200px;
-  border-radius: 8px; /* Slight rounding for aesthetics */
-  object-fit: cover; /* Ensure the image scales proportionally */
+  width: 100%; /* Full width for responsiveness */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px;
 }
 
 .reviewContent {
-  display: flex;
-  flex-direction: column; /* Stack content vertically */
-  flex: 1; /* Allow the content to expand naturally */
+  flex-direction: column;
 }
 
-.reviewHeader {
-  display: flex;
-  justify-content: space-between; /* Space between name and stars */
-  align-items: center; /* Align name and stars on the same line */
-  margin-bottom: 10px;
-}
+/* Desktop-specific styles */
+@media (min-width: 1024px) {
+  .reviewsList {
+    flex-direction: column; /* Keep as a column layout */
+    align-items: center; /* Center the items horizontally */
+    gap: 30px; /* Add more spacing for larger screens */
+  }
 
-.reviewerName {
-  font-size: 1.5rem; /* Emphasize the reviewer's name */
-  font-weight: bold;
-  color: #333;
-}
+  .reviewItem {
+    max-width: 800px; /* Limit the width for better readability */
+    flex-direction: row; /* Change to row layout */
+    gap: 15px; /* Adjust spacing between image and content */
+  }
 
-.reviewStars {
-  display: flex;
-  gap: 5px; /* Add spacing between stars */
-}
+  .reviewImg {
+    width: 200px; /* Fixed size for desktop */
+    height: 200px;
+    flex-shrink: 0; /* Prevent shrinking */
+  }
 
-.reviewMessage {
-  font-size: 1rem;
-  color: #555; /* Slightly lighter color for the message */
-  margin-bottom: 10px;
-  line-height: 1.5; /* Increase line spacing for readability */
-}
+  .reviewContent {
+    flex: 1; /* Let content expand naturally */
+    flex-direction: column; /* Stack content within the content area */
+  }
 
-.reviewDate {
-  font-size: 0.9rem;
-  color: #888; /* Muted color for the date */
-  align-self: flex-end; /* Align date to the bottom-right */
+  .reviewHeader {
+    flex-direction: row; /* Align name and stars in a row */
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .error {
@@ -154,6 +173,53 @@
     width: 45vw; /* Increase size for mobile view */
     top: 1000px; /* Adjust position */
   }
+
+  @media (max-width: 768px) {
+    .reviewsList {
+      gap: 15px; /* Reduce spacing for a compact layout */
+    }
+  
+    .reviewItem {
+      padding: 15px; /* Adjust padding for smaller screens */
+      border-radius: 6px; /* Slightly smaller rounding */
+    }
+  
+    .reviewImg {
+      width: 100%; /* Use full width for better use of space */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 6px;
+    }
+  
+    .reviewContent {
+      flex-direction: column;
+      gap: 10px; /* Reduce spacing for compactness */
+    }
+  
+    .reviewHeader {
+      flex-direction: column; /* Stack name and stars vertically */
+      align-items: flex-start; /* Align to the start for readability */
+      margin-bottom: 5px; /* Reduce spacing */
+    }
+  
+    .reviewerName {
+      font-size: 1.2rem; /* Slightly smaller text */
+    }
+  
+    .reviewStars {
+      gap: 3px; /* Reduce gap between stars */
+    }
+  
+    .reviewMessage {
+      font-size: 0.9rem; /* Adjust font size */
+      line-height: 1.4; /* Adjust line spacing */
+    }
+  
+    .reviewDate {
+      font-size: 0.8rem; /* Reduce font size */
+      align-self: flex-start; /* Align to the start */
+    }
+  }
+  
 }
 
 @media (max-width: 480px) {
