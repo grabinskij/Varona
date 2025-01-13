@@ -2,14 +2,12 @@
 .videoContainer {
   width: 100%;
   height: 100vh;
-  /* Full viewport height */
   overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: black;
-  /* Fallback color for video loading */
+  background-color: black; /* Fallback color for video loading */
 }
 
 .review {
@@ -28,7 +26,6 @@
 .imageContainer {
   width: 100%;
   height: 100vh;
-  /* Full screen height for image */
 }
 
 .fullScreenImage {
@@ -49,8 +46,7 @@
   align-items: center;
   justify-content: center;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.642);
-  /* Dark transparent overlay */
+  background-color: rgba(0, 0, 0, 0.642); /* Dark transparent overlay */
 }
 
 /* Responsive Fashion Network Logo */
@@ -59,50 +55,21 @@
   left: 50%;
   transform: translateX(-50%);
   top: 1000px;
-  /* Adjusted to be closer to the bottom of the viewport */
   max-width: 100%;
-  width: 25vw;
-  /* 25% of the viewport width for responsive scaling */
+  width: 25vw; /* 25% of the viewport width for responsive scaling */
   height: auto;
-  /* Maintain aspect ratio */
-  object-fit: contain;
-  /* Ensures the logo fits without any white gaps */
-  cursor: pointer;
-  /* Indicates it's a clickable element */
+  object-fit: contain; /* Ensures the logo fits without any white gaps */
+  cursor: pointer; /* Indicates it's a clickable element */
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 /* Hover Effect for the Logo */
 .fashionNetwork:hover {
   transform: translateX(-50%) scale(1.1);
-  /* Scales up slightly on hover */
   opacity: 0.9;
-  /* Adds a subtle opacity change */
 }
 
-.reviewsList {
-  margin-top: 20px;
-  display: flex;
-  width: 90vw;
-  margin-left: 5vw;
-  margin-right: 5vw;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.reviewItem {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
-  width: 95%;
-}
-
+/* Review Section */
 .reviewsList {
   margin: 20px;
   display: flex;
@@ -123,9 +90,7 @@
 
 .reviewImg {
   width: 100%;
-  /* Full width for responsiveness */
   height: auto;
-  /* Maintain aspect ratio */
   border-radius: 8px;
 }
 
@@ -141,49 +106,31 @@
     margin-right: 5vw;
     justify-content: center;
     flex-direction: column;
-    /* Keep as a column layout */
     align-items: center;
-    /* Center the items horizontally */
     gap: 30px;
-    /* Add more spacing for larger screens */
   }
 
   .reviewItem {
     width: 95%;
-    /* Limit the width for better readability */
     flex-direction: row;
-    /* Change to row layout */
     gap: 15px;
-    /* Adjust spacing between image and content */
   }
 
   .reviewImg {
     width: 200px;
-    /* Fixed size for desktop */
     height: 200px;
     flex-shrink: 0;
-    /* Prevent shrinking */
   }
 
   .reviewContent {
     flex: 1;
-    /* Let content expand naturally */
-    flex-direction: column;
-    /* Stack content within the content area */
   }
 
   .reviewHeader {
     flex-direction: row;
-    /* Align name and stars in a row */
     justify-content: space-between;
     align-items: center;
   }
-}
-
-.error {
-  color: red;
-  font-weight: bold;
-  margin: 10px 0;
 }
 
 /* Media Queries for Responsiveness */
@@ -192,93 +139,68 @@
 @media (max-width: 1024px) {
   .fashionNetwork {
     width: 35vw;
-    /* Increase size for tablet view */
     top: 1000px;
-    /* Adjust position */
   }
 }
 
-
 @media (max-width: 768px) {
-
   .fashionNetwork {
     width: 45vw;
-    /* Increase size for mobile view */
     top: 1000px;
-    /* Adjust position */
   }
 
   .reviewsList {
     width: 90vw;
     margin-left: 5vw;
     margin-right: 5vw;
-    justify-content: center;
     gap: 15px;
-    /* Reduce spacing for a compact layout */
   }
 
   .reviewItem {
     margin: 20px;
     padding: 15px;
-    /* Adjust padding for smaller screens */
     border-radius: 6px;
-    /* Slightly smaller rounding */
   }
 
   .reviewImg {
     width: 100%;
-    /* Use full width for better use of space */
     height: auto;
-    /* Maintain aspect ratio */
     border-radius: 6px;
   }
 
   .reviewContent {
     flex-direction: column;
     gap: 10px;
-    /* Reduce spacing for compactness */
   }
 
   .reviewHeader {
     flex-direction: column;
-    /* Stack name and stars vertically */
     align-items: flex-start;
-    /* Align to the start for readability */
     margin-bottom: 5px;
-    /* Reduce spacing */
   }
 
   .reviewerName {
     font-size: 1.2rem;
-    /* Slightly smaller text */
   }
 
   .reviewStars {
     gap: 3px;
-    /* Reduce gap between stars */
   }
 
   .reviewMessage {
     font-size: 0.9rem;
-    /* Adjust font size */
     line-height: 1.4;
-    /* Adjust line spacing */
   }
 
   .reviewDate {
     font-size: 0.8rem;
-    /* Reduce font size */
     align-self: flex-start;
-    /* Align to the start */
   }
 }
-
 
 @media (max-width: 480px) {
   .fashionNetwork {
     width: 50vw;
-    /* Larger size for very small screens */
     top: 70vh;
-    /* Adjust position */
   }
 }
