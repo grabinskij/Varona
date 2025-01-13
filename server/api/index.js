@@ -285,9 +285,8 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 const app = express();
 
-const dotenv = require('dotenv');
+// Load environment variables
 dotenv.config({ path: './.env.local' });
-
 
 // Vercel specific
 app.set('trust proxy', true);
@@ -333,7 +332,7 @@ if (!MONGO_URI || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD) {
 
 const reviewLimiter = rateLimit({
     windowMs: 60 * 60 * 1000,
-    max: 3,
+    max: 300,
     message: 'Too many reviews submitted. Please try again later.'
 });
 
