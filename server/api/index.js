@@ -332,7 +332,7 @@ if (!MONGO_URI || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD) {
 
 const reviewLimiter = rateLimit({
     windowMs: 60 * 60 * 1000,
-    max: 3,
+    max: 300,
     message: 'Too many reviews submitted. Please try again later.'
 });
 
@@ -343,7 +343,8 @@ app.use(cors({
         const allowedOrigins = [
             FRONTEND_URL_LOCAL, 
             FRONTEND_URL_PROD,
-            'https://www.nataliyarodionova.com'
+            'https://www.nataliyarodionova.com',
+            'http://varona.vercel.app'
             ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);

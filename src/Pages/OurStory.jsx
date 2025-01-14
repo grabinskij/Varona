@@ -9,8 +9,6 @@ import { FaStar } from 'react-icons/fa';
 const OurStory = () => {
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
-
-
   // Initialize Cloudinary instance with your cloudName
   const cld = new Cloudinary({
     cloud: {
@@ -22,7 +20,7 @@ const OurStory = () => {
   const video = cld.video('Podium_be5hn5');
 
   const logo = cld.image('fashion-network-logo_apwgif');
-logo.format('webp').quality(80); // Optional settings for format and quality
+  logo.format('webp').quality(80); // Optional settings for format and quality
 
   // List of image public IDs from Cloudinary (use your own image public IDs here)
   const imagePublicIds = [ // Replace with your image public ID from Cloudinary
@@ -78,44 +76,45 @@ logo.format('webp').quality(80); // Optional settings for format and quality
                 className={styles.fullScreenImage}
               />
             </div>
-            
           );
         })}
       </div>
+
       <section className={styles.review}>
-        <h1 style={{color:'black'}}>What our client says:</h1>
+        <h1 style={{ color: 'black' }}>What our client says:</h1>
         {/* Reviews */}
         <div className={styles.reviewsList}>
-        {error && <div className={styles.error}>{error}</div>}
-        {reviews.map((review) => (
-          <div key={review._id} className={styles.reviewItem}>
-            <div className={styles.reviewHeader}>
-              <span className={styles.reviewerName}>{review.name}</span>
-              <div className={styles.reviewStars}>
-                {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    color={i < review.rating ? "#ffc107" : "#e4e5e9"}
-                    size={20}
-                  />
-                ))}
+          {error && <div className={styles.error}>{error}</div>}
+          {reviews.map((review) => (
+            <div key={review._id} className={styles.reviewItem}>
+              <div className={styles.reviewHeader}>
+                <span className={styles.reviewerName}>{review.name}</span>
+                <div className={styles.reviewStars}>
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar
+                      key={i}
+                      color={i < review.rating ? "#ffc107" : "#e4e5e9"}
+                      size={20}
+                    />
+                  ))}
+                </div>
               </div>
+              {review.image && (
+                <img
+                  src={review.image}
+                  alt="Review"
+                  className={styles.reviewImg}
+                />
+              )}
+              <p className={styles.reviewMessage}>{review.message}</p>
+              <span className={styles.reviewDate}>
+                {new Date(review.createdAt).toLocaleDateString()}
+              </span>
             </div>
-            {review.image && (
-              <img
-                src={review.image}
-                alt="Review"
-                className={styles.reviewImg}
-              />
-            )}
-            <p className={styles.reviewMessage}>{review.message}</p>
-            <span className={styles.reviewDate}>
-              {new Date(review.createdAt).toLocaleDateString()}
-            </span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </section>
+
       {/* Overlay Section (Modal and Review) */}
       <div className={styles.overlay}>
         {/* SubmitModal will open only when handleOpenModal is called */}

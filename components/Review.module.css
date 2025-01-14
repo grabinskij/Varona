@@ -82,36 +82,6 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-  
-    .fon {
-    background-size: cover; /* Cover the entire element while maintaining aspect ratio */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    position: relative;
-    height: 100%;
-    width: 100vw; /* Full viewport width */
-    display: flex;
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    color: white; /* Ensure text is visible over the background */
-    text-align: center;
-}
-  
-    .sloganBlog {
-        top: 30vh;
-        right: 5vw;
-        text-align: center; /* Center text in mobile */
-    }
-
-    h1 {
-        font-size: 30px;
-    }
-  
-    h2 {
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 768px) {
   .reviewComponent {
   margin-left: 15%;
   margin-right: 15%;
@@ -128,5 +98,16 @@ button:hover {
 
 /* Tablet Styling */
 @media (min-width: 768px) and (max-width: 1024px) {
-
+  .reviewComponent {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 70px;
+    width: 70%; /* 70% of the viewport width on all devices */
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(204, 204, 204, 0.51);
+    border-radius: 10px;
+    backdrop-filter: blur(7px);
+    box-sizing: border-box;
+  }
 }
