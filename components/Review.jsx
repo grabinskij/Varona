@@ -5,6 +5,7 @@ import SubmitModal from "./SubmitModal";
 
 const Review = () => {
   const [reviewFields, setReviewFields] = useState({
+    name: "",
     rating: 0,
     message: "",
     image: null,
