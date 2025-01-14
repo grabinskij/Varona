@@ -14,17 +14,22 @@ const Review = () => {
   const [reviews, setReviews] = useState([]);
   const [hover, setHover] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // Add error state to handle errors
 
+  // Function to get the correct API endpoint based on environment
   const getApiUrl = () => {
     if (process.env.NODE_ENV === "production") {
-      return "https://www.nataliyarodionova.com/api/reviews";
+
+      return "https://www.nataliyarodionova.com/api/reviews"; // Production URL
     }
-    return "http://localhost:4000/api/reviews";
+    return "http://localhost:4000/api/reviews"; // Local development URL
   };
+
+  // Function to handle closing the modal
 
   const handleCloseModal = () => setIsModalOpen(false);
 
+  // Function to handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -39,6 +44,7 @@ const Review = () => {
     }
   };
 
+  // Function to handle input changes for rating and message
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setReviewFields((prevState) => ({
@@ -47,6 +53,7 @@ const Review = () => {
     }));
   };
 
+  // Handle rating click
   const handleRatingClick = (ratingValue) => {
     setReviewFields((prevState) => ({
       ...prevState,
@@ -67,11 +74,12 @@ const Review = () => {
         const reviewsData = await response.json();
         setReviews(reviewsData);
       } else {
-        setError("Failed to fetch reviews");
+
+        setError("Failed to fetch reviews"); // Set error message if fetching fails
       }
     } catch (error) {
       console.error("Error fetching reviews:", error);
-      setError("Error fetching reviews");
+      setError("Error fetching reviews"); // Set error message in case of network failure
     }
   };
 
@@ -111,6 +119,7 @@ const Review = () => {
         const errorData = await response.json();
         console.error("Error response from server:", errorData);
         alert(errorData.error || "There was an error submitting the review.");
+
       }
     } catch (error) {
       console.error("Error:", error);
