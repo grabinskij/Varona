@@ -164,10 +164,8 @@ const Review = () => {
             );
           })}
         </div>
-
         <input type="text" name="" id=""
          placeholder="Your name.."/>
-
         {/* Message */}
         <textarea
           placeholder="Write your review..."
@@ -183,9 +181,6 @@ const Review = () => {
           Submit Review
         </button>
       </form>
-
-      {/* Error Message */}
-      {error && <div className={styles.error}>{error}</div>}
 
       {/* Display Reviews */}
       <div className={styles.reviewsList}>
