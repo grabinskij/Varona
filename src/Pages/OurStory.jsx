@@ -1,56 +1,78 @@
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedVideo } from '@cloudinary/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from "./OurStory.module.css";
 import Review from '../../components/Review';
 import SubmitModal from '../../components/SubmitModal';
 import { FaStar } from 'react-icons/fa';
 
 const OurStory = () => {
-  const [error, setError] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  // Initialize Cloudinary instance with your cloudName
+  const [error, setError] = useState(null); // State for error messages
+  const [reviews, setReviews] = useState([]); // Approved reviews state
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
+
+  // Initialize Cloudinary instance
   const cld = new Cloudinary({
     cloud: {
       cloudName: 'dwenvtwyx',
     },
   });
 
-  // Fetch the video by its public ID
-  const video = cld.video('Podium_be5hn5');
+  // Fetch reviews from API
+  const fetchApprovedReviews = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/reviews', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        const allReviews = await response.json();
+        const approvedReviews = allReviews.filter((review) => review.isApproved); // Filter only approved reviews
+        setReviews(approvedReviews);
+      } else {
+        throw new Error('Failed to fetch reviews');
+      }
+    } catch (error) {
+      console.error(error);
+      setError('Error fetching reviews. Please try again later.');
+    }
+  };
 
-  const logo = cld.image('fashion-network-logo_apwgif');
-  logo.format('webp').quality(80); // Optional settings for format and quality
+  useEffect(() => {
+    fetchApprovedReviews(); // Fetch reviews when component loads
+  }, []);
 
-  // List of image public IDs from Cloudinary (use your own image public IDs here)
-  const imagePublicIds = [ // Replace with your image public ID from Cloudinary
-    'green_cev8bm',
-    'capotto_iaam9k', // Replace with your image public ID from Cloudinary
-    'pantaloni_loyblc', // Replace with your image public ID from Cloudinary
-    'impermiabile_agbvg3', // Replace with your image public ID from Cloudinary
-    'abito_h4xf2u'
-  ];
-
-  // State to manage the modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Function to open the modal
+  // Open modal
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
+  // Close modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
+  // Cloudinary video setup
+  const video = cld.video('Podium_be5hn5');
+  const logo = cld.image('fashion-network-logo_apwgif').format('webp').quality(80);
+  const imagePublicIds = [
+    'green_cev8bm',
+    'capotto_iaam9k',
+    'pantaloni_loyblc',
+    'impermiabile_agbvg3',
+    'abito_h4xf2u',
+  ];
+
   return (
     <div>
-      {/* Video Element */}
+      {/* Video Section */}
       <div className={styles.videoContainer}>
         <AdvancedVideo cldVid={video} loop autoPlay muted controls={false} />
       </div>
 
+      {/* Logo Section */}
       <a
         href="https://de.fashionnetwork.com/fotogalerien/photos/Varona-by-Nataliya-Rodionova,33328.html"
         target="_blank"
@@ -58,21 +80,20 @@ const OurStory = () => {
       >
         <img
           className={styles.fashionNetwork}
-          src={logo.toURL("https://res.cloudinary.com/dwenvtwyx/image/upload/v1731777892/fashion-network-logo_apwgif.webp")} // Dynamically generated URL from Cloudinary
+          src={logo.toURL()}
           alt="Fashion Podium"
         />
       </a>
 
-      {/* Cloudinary Image Section */}
+      {/* Image Gallery */}
       <div className={styles.imageGallery}>
         {imagePublicIds.map((imageId, index) => {
-          const image = cld.image(imageId); // Create a Cloudinary image object using the public ID
-          image.format('webp').quality(80); // Customize the image settings (optional)
+          const image = cld.image(imageId).format('webp').quality(80);
           return (
             <div className={styles.imageContainer} key={index}>
               <img
-                src={image.toURL()} // Get the URL for the image
-                alt={`Cloudinary Image ${index}`}
+                src={image.toURL()}
+                alt={`Gallery Image ${index}`}
                 className={styles.fullScreenImage}
               />
             </div>
@@ -80,9 +101,9 @@ const OurStory = () => {
         })}
       </div>
 
+      {/* Client Reviews Section */}
       <section className={styles.review}>
-        <h1 style={{ color: 'black' }}>What our client says:</h1>
-        {/* Reviews */}
+        <h1 style={{ color: 'black' }}>What Our Clients Say:</h1>
         <div className={styles.reviewsList}>
           {error && <div className={styles.error}>{error}</div>}
           {reviews.map((review) => (
@@ -115,15 +136,15 @@ const OurStory = () => {
         </div>
       </section>
 
-      {/* Overlay Section (Modal and Review) */}
+      {/* Review Submission Section */}
       <div className={styles.overlay}>
-        {/* SubmitModal will open only when handleOpenModal is called */}
+        {/* SubmitModal */}
         {isModalOpen && <SubmitModal onClose={handleCloseModal} />}
-        {/* Pass handleOpenModal to Review so it opens the modal on form submission */}
+        {/* Review Form */}
         <Review 
-          onSubmit={handleOpenModal} 
-          setError={setError}
-          setReviews={setReviews}
+          onSubmit={handleOpenModal} // Open modal after submission
+          setError={setError} // Pass error handler
+          setReviews={fetchApprovedReviews} // Refresh approved reviews after submission
         />
       </div>
     </div>
