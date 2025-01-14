@@ -33,7 +33,7 @@ const SubmitModal = ({ onClose }) => {
 
       <div className={styles.itemList}>
         <div className={styles.item}>
-          <p>We truly appreciate the time you took to share your experience with us.</p>
+          <p>We truly appreciate the time you took to share your experience with us. Your review will be live on the website shortly!</p>
           {/* Close Button */}
           <button onClick={onClose} style={{ backgroundColor: "white", color: "black", marginBottom: "70px" }}>
             OK
