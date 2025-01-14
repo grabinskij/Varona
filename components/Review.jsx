@@ -5,7 +5,7 @@ import SubmitModal from "./SubmitModal";
 
 const Review = () => {
   const [reviewFields, setReviewFields] = useState({
-    name: "", // Added "name" to review fields
+    name: "",
     rating: 0,
     message: "",
     image: null,
@@ -14,22 +14,17 @@ const Review = () => {
   const [reviews, setReviews] = useState([]);
   const [hover, setHover] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState(""); // Add error state to handle errors
+  const [error, setError] = useState("");
 
-  // Function to get the correct API endpoint based on environment
   const getApiUrl = () => {
     if (process.env.NODE_ENV === "production") {
-
-      return "https://www.nataliyarodionova.com/api/reviews"; // Production URL
+      return "https://www.nataliyarodionova.com/api/reviews";
     }
-    return "http://localhost:4000/api/reviews"; // Local development URL
+    return "http://localhost:4000/api/reviews";
   };
-
-  // Function to handle closing the modal
 
   const handleCloseModal = () => setIsModalOpen(false);
 
-  // Function to handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -44,7 +39,6 @@ const Review = () => {
     }
   };
 
-  // Function to handle input changes for rating and message
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setReviewFields((prevState) => ({
@@ -53,7 +47,6 @@ const Review = () => {
     }));
   };
 
-  // Handle rating click
   const handleRatingClick = (ratingValue) => {
     setReviewFields((prevState) => ({
       ...prevState,
@@ -61,7 +54,7 @@ const Review = () => {
     }));
   };
 
-  const fetchReviews = async () => {
+  const fetchApprovedReviews = async () => {
     try {
       const response = await fetch(getApiUrl(), {
         method: "GET",
@@ -72,19 +65,20 @@ const Review = () => {
       });
       if (response.ok) {
         const reviewsData = await response.json();
-        setReviews(reviewsData);
+        // Filter reviews by approval status
+        const approvedReviews = reviewsData.filter((review) => review.isApproved);
+        setReviews(approvedReviews);
       } else {
-
-        setError("Failed to fetch reviews"); // Set error message if fetching fails
+        setError("Failed to fetch reviews");
       }
     } catch (error) {
       console.error("Error fetching reviews:", error);
-      setError("Error fetching reviews"); // Set error message in case of network failure
+      setError("Error fetching reviews");
     }
   };
 
   useEffect(() => {
-    fetchReviews();
+    fetchApprovedReviews();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -110,8 +104,6 @@ const Review = () => {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        setReviews([result.data, ...reviews]);
         setReviewFields({ name: "", rating: 0, message: "", image: null });
         setHover(null);
         setIsModalOpen(true);
@@ -119,7 +111,6 @@ const Review = () => {
         const errorData = await response.json();
         console.error("Error response from server:", errorData);
         alert(errorData.error || "There was an error submitting the review.");
-
       }
     } catch (error) {
       console.error("Error:", error);
@@ -132,7 +123,6 @@ const Review = () => {
       <form onSubmit={handleSubmit} className={styles.reviewForm}>
         <h2>Leave a Review</h2>
 
-        {/* Name Input */}
         <input
           type="text"
           name="name"
@@ -143,7 +133,6 @@ const Review = () => {
           className={styles.input}
         />
 
-        {/* Image Upload */}
         <label className={styles.imageUpload}>
           <input type="file" accept="image/*" onChange={handleImageChange} />
           {reviewFields.image && (
@@ -151,7 +140,6 @@ const Review = () => {
           )}
         </label>
 
-        {/* Star Rating */}
         <div className={styles.starRating}>
           {[...Array(5)].map((_, index) => {
             const ratingValue = index + 1;
@@ -176,7 +164,6 @@ const Review = () => {
           })}
         </div>
 
-        {/* Message */}
         <textarea
           placeholder="Write your review..."
           name="message"
@@ -186,13 +173,11 @@ const Review = () => {
           className={styles.textArea}
         ></textarea>
 
-        {/* Submit Button */}
         <button type="submit" className={styles.button}>
           Submit Review
         </button>
       </form>
 
-      {/* Display Reviews */}
       <div className={styles.reviewsList}>
         {reviews.map((review) => (
           <div key={review._id} className={styles.reviewItem}>
@@ -223,7 +208,6 @@ const Review = () => {
         ))}
       </div>
 
-      {/* Submit Modal */}
       {isModalOpen && <SubmitModal onClose={handleCloseModal} />}
     </div>
   );
