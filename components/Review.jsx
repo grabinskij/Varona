@@ -1,3 +1,4 @@
+// Review Component
 import styles from "./Review.module.css";
 import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
@@ -28,12 +29,22 @@ const Review = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("Please select a valid image file.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log("Image loaded:", reader.result);
         setReviewFields((prevState) => ({
           ...prevState,
           image: reader.result,
         }));
+      };
+      reader.onerror = () => {
+        console.error("Error loading image");
+        alert("Failed to load image. Please try again.");
       };
       reader.readAsDataURL(file);
     }
@@ -65,7 +76,6 @@ const Review = () => {
       });
       if (response.ok) {
         const reviewsData = await response.json();
-        // Filter reviews by approval status
         const approvedReviews = reviewsData.filter((review) => review.isApproved);
         setReviews(approvedReviews);
       } else {
