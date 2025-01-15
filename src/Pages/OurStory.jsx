@@ -87,32 +87,39 @@ const OurStory = () => {
         ))}
       </div>
       <section className={styles.review}>
-        <h1 style={{ color: "black" }}>What our client says:</h1>
-        {error && <div className={styles.error}>{error}</div>}
-        {reviews.map((review) => (
-          <div key={review._id} className={styles.reviewItem}>
-            <div className={styles.reviewHeader}>
-              <span className={styles.reviewerName}>{review.name}</span>
-              <div className={styles.reviewStars}>
-                {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    color={i < review.rating ? "#ffc107" : "#e4e5e9"}
-                    size={20}
-                  />
-                ))}
-              </div>
-            </div>
-            {review.image && (
-              <img src={review.image} alt="Review" className={styles.reviewImg} />
-            )}
-            <p className={styles.reviewMessage}>{review.message}</p>
-            <span className={styles.reviewDate}>
-              {new Date(review.createdAt).toLocaleDateString()}
-            </span>
-          </div>
-        ))}
-      </section>
+  <h1 style={{ color: "black" }}>What our client says:</h1>
+  {error && <div className={styles.error}>{error}</div>}
+  {reviews.map((review) => (
+    <div key={review._id} className={styles.reviewItem}>
+      <div className={styles.reviewHeader}>
+        <span className={styles.reviewerName}>
+          {review.name}
+        </span>
+        {review.image && (
+          <img 
+            src={review.image} 
+            alt={`${review.name}'s review`} 
+            className={styles.reviewerImage} 
+          />
+        )}
+        <div className={styles.reviewStars}>
+          {[...Array(5)].map((_, i) => (
+            <FaStar
+              key={i}
+              color={i < review.rating ? "#ffc107" : "#e4e5e9"}
+              size={20}
+            />
+          ))}
+        </div>
+      </div>
+      <p className={styles.reviewMessage}>{review.message}</p>
+      <span className={styles.reviewDate}>
+        {new Date(review.createdAt).toLocaleDateString()}
+      </span>
+    </div>
+  ))}
+</section>
+
       <div className={styles.overlay}>
         {isModalOpen && <SubmitModal onClose={handleCloseModal} />}
         <Review onSubmit={handleOpenModal} />
