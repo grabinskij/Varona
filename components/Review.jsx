@@ -202,12 +202,13 @@ const Review = () => {
                   />
                 ))}
               </div>
+              <img src="" alt="" srcset="" />
             </div>
             {review.image && (
               <img
                 src={review.image}
                 alt="Review"
-                className={styles.reviewImg}
+                className={styles.previewImg}
               />
             )}
             <p className={styles.reviewMessage}>{review.message}</p>
