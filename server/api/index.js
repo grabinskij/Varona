@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // ===============Express Server=============
 
+=======
+>>>>>>> 9cc7e6479126576fca20fefe797374930c2f75c5
 // const express = require('express');
 // const mongoose = require('mongoose');
 // const multer = require('multer'); 
@@ -11,6 +14,7 @@
 // // const { Server } = require('socket.io'); // uncomment if you want to use socket.io
 // const http = require('http');
 // const sanitizeHtml = require('sanitize-html');
+// const helmet = require('helmet');
 
 
 // const cloudinary = require('cloudinary').v2;
@@ -79,11 +83,13 @@
 
 // const reviewLimiter = rateLimit({
 //     windowMs: 60 * 60 * 1000, // 1 hour
-//     max: 3, // 3 reviews per IP
+//     max: 30, // 3 reviews per IP
 //     message: 'Too many reviews submitted. Please try again later.'
 // });
 
 // // Middleware
+// app.use(helmet()); 
+
 // app.use(express.json({ limit: '10mb' })); // Limit payload size
 // app.use(cors({
 //     origin: (origin, callback) => {
@@ -246,6 +252,11 @@
 //     console.error('Server error:', err);
 //     res.status(500).json({ error: 'Internal server error' });
 // });
+
+// app.get('/api/health', (req, res) => {
+//     res.status(200).json({ status: 'OK' });
+// });
+
 
 
 // server.listen(PORT, () => {

@@ -143,6 +143,7 @@ const Shop = () => {
         price={180}
         description="Made entirely from 100% cotton, these trousers ensure comfort and breathability. The ruffled style, adorned with delicate lace detailing, exudes vintage elegance. Convenient drawstrings at the front allow for easy closure or adjustment."
       />
+      
 
       {cartIsOpen && (
         <div>
