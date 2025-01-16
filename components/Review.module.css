@@ -34,7 +34,7 @@ h2 {
 }
 
 .previewImg {
-  max-width: 100%;
+  max-width: 30%;
   height: auto;
   margin-top: 10px;
 }
@@ -94,6 +94,12 @@ button:hover {
   backdrop-filter: blur(7px);
   box-sizing: border-box;
 }
+
+.previewImg {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
   }
 
 /* Tablet Styling */
@@ -109,5 +115,11 @@ button:hover {
     border-radius: 10px;
     backdrop-filter: blur(7px);
     box-sizing: border-box;
+  }
+
+  .previewImg {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
   }
 }

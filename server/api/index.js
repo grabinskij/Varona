@@ -69,15 +69,6 @@
 //     process.exit(1);
 // }
 
-// // Set up Socket.IO                  // uncomment if you want to use socket.io
-// // const io = new Server(server, {
-// //     cors: {
-// //         origin: [FRONTEND_URL_LOCAL, FRONTEND_URL_PROD],
-// //         methods: ['GET', 'POST'],
-// //         credentials: true
-// //     }
-// // });
-
 // const reviewLimiter = rateLimit({
 //     windowMs: 60 * 60 * 1000, // 1 hour
 //     max: 30, // 3 reviews per IP
@@ -90,7 +81,7 @@
 // app.use(express.json({ limit: '10mb' })); // Limit payload size
 // app.use(cors({
 //     origin: (origin, callback) => {
-//         const allowedOrigins = [FRONTEND_URL_LOCAL, FRONTEND_URL_PROD];
+//         const allowedOrigins = [FRONTEND_URL_LOCAL, FRONTEND_URL_PROD, ];
 //         if (!origin || allowedOrigins.includes(origin)) {
 //             callback(null, true);
 //         } else {
@@ -111,32 +102,6 @@
 //         console.error('MongoDB connection error:', err);
 //         process.exit(1);
 //     });
-
-// // Set up MongoDB change stream                // uncomment if you want to use socket.io
-// // function setupChangeStream() {
-// //     const changeStream = Review.watch([
-// //         {
-// //             $match: {
-// //                 'updateDescription.updatedFields.approved': true
-// //             }
-// //         }
-// //     ]);
-
-// //     changeStream.on('change', async (change) => {
-// //         if (change.operationType === 'update') {
-// //             const updatedReview = await Review.findById(change.documentKey._id)
-// //                 .select('-ipAddress -userAgent');
-// //             if (updatedReview && updatedReview.approved) {
-// //                 io.emit('reviewApproved', updatedReview);
-// //             }
-// //         }
-// //     });
-
-// //     changeStream.on('error', error => {
-// //         console.error('Change stream error:', error);
-// //         setTimeout(setupChangeStream, 5000); // Retry connection
-// //     });
-// // }
 
 
 // app.post('/api/reviews', reviewLimiter, upload.single('image'), async (req, res) => { 
