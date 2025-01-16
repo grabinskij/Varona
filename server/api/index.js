@@ -1,15 +1,12 @@
-<<<<<<< HEAD
 // ===============Express Server=============
 
-=======
->>>>>>> 9cc7e6479126576fca20fefe797374930c2f75c5
 // const express = require('express');
 // const mongoose = require('mongoose');
 // const multer = require('multer'); 
 // const cors = require('cors');
 // const dotenv = require('dotenv');
 // const rateLimit = require('express-rate-limit');
-// const Review = require('./Models/Review');
+// const Review = require('../Models/Review');
 // // const User = require('../Models/User');
 // // const { Server } = require('socket.io'); // uncomment if you want to use socket.io
 // const http = require('http');
