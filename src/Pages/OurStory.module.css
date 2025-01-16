@@ -80,6 +80,12 @@
   gap: 30px;
 }
 
+.reviewStars {
+  margin-bottom: 15px;
+  margin-top: 15px;
+  gap: 3px;
+}
+
 .reviewItem {
   display: flex;
   flex-direction: column;
@@ -161,6 +167,12 @@ font-weight: 600;
     width: 35vw;
     top: 1000px;
   }
+
+  .reviewStars {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    gap: 3px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -206,6 +218,7 @@ font-weight: 600;
 
   .reviewStars {
     margin-bottom: 15px;
+    margin-top: 15px;
     gap: 3px;
   }
 

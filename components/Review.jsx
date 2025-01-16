@@ -3,7 +3,6 @@ import styles from "./Review.module.css";
 import { useState, useEffect, useCallback } from "react";
 import { FaStar } from "react-icons/fa";
 import SubmitModal from "./SubmitModal";
-// import io from "socket.io-client";    //uncomment this line if you want to use socket.io
 
 const Review = ({setReviews, setError}) => {
   const [reviewFields, setReviewFields] = useState({
@@ -23,32 +22,6 @@ const Review = ({setReviews, setError}) => {
     : import.meta.env.VITE_API_URL_LOCAL
     return baseUrl
   };
-
-  // Initialize WebSocket connection        //uncomment if you want to use socket.io
-  // useEffect(() => {
-  //   const socketUrl =
-  //   import.meta.env.VITE_NODE_ENV === "production"
-  //     ? import.meta.env.VITE_SOCKET_URL_PROD
-  //     : import.meta.env.VITE_SOCKET_URL_LOCAL
-
-  //   const socket = io(socketUrl, {
-  //     withCredentials: true
-  //   });
-
-  //   socket.on('connect', () => {
-  //     console.log('Connected to WebSocket');
-  //   });
-
-  //   socket.on('reviewApproved', (newReview) => {
-  //     setReviews(prevReviews => [newReview, ...prevReviews]);
-  //   });
-
-  //   socket.on('connect_error', (error) => {
-  //     console.error('WebSocket connection error:', error);
-  //   });
-
-  //   return () => socket.disconnect();
-  // }, []);
 
   // Fetch existing reviews
   const fetchReviews = useCallback(async () => {
