@@ -55,9 +55,9 @@
   transition: color 0.2s ease;
 }
 
-.navLinks li p:hover {
-  color: #000; /* Hover color */
-}
+/* .navLinks li p:hover {
+  color: #000; 
+} */
 
 /* Active link color for Contacts page */
 .blackBackground .navLinks li p {
