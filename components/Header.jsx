@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faUser, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import CartSummary from "./CartSummary";
 import { useCart } from "./CartContext";
+import useOutsideClick from '../src/hooks/useOutsideClick';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,15 +15,17 @@ const Header = () => {
   const [menu, openMenu] = useState(false);
   const { cartItems } = useCart();
 
+  const navRef = useOutsideClick(() => openMenu(false))
+
   // Check if we're on the Contacts page
-  const isContactPage = window.location.pathname === "/contacts";
+  // const isContactPage = window.location.pathname === "/contacts";
 
   const handleCartClick = () => {
     setCartIsOpen(!cartIsOpen);
   };
 
   const toggleMenu = () => {
-    if (isContactPage) {
+    if (menu) {
       openMenu(!menu); // Open modal-style menu on Contacts page
     } else {
       openMenu(!menu); // Open regular menu on other pages
@@ -31,11 +34,11 @@ const Header = () => {
 
   return (
     <Nav>
-      <div className={`${styles.navigation} ${isContactPage ? styles.blackBackground : ''}`}>
+      <div className={`${styles.navigation} ${menu ? styles.blackBackground : ''}`}>
         {/* Logo on the left */}
         <div onClick={() => navigate("/")} className={styles.logo}>
           <img 
-            className={`${styles.logotype} ${isContactPage ? styles.whiteLogo : ''}`} 
+            className={`${styles.logotype} ${menu ? styles.whiteLogo : ''}`} 
             src={logo} 
             alt="Logo" 
           />
@@ -46,9 +49,9 @@ const Header = () => {
             {["/ourstory", "/ourservice", "/shop", "/contacts"].map((path, index) => {
               const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
               return (
-                <li key={index} className={isContactPage ? styles.whiteNavLinkLi : ''}>
+                <li key={index}>
                   <p 
-                    className={isContactPage ? styles.whiteNavLinkP : styles.navLinkP} 
+                    className={menu ? styles.whiteNavLinkP : styles.navLinkP} 
                     onClick={() => navigate(path)}
                   >
                     {label}
@@ -64,7 +67,7 @@ const Header = () => {
           <div className={styles.cartIconContainer}>
             <FontAwesomeIcon 
               onClick={handleCartClick} 
-              className={`${styles.cartIcon} ${isContactPage ? styles.whiteIcon : ''}`} 
+              className={`${styles.cartIcon} ${menu ? styles.whiteIcon : ''}`} 
               icon={faCartShopping} 
             />
             {cartItems.length > 0 && (
@@ -79,14 +82,14 @@ const Header = () => {
             className={`${styles.userIcon} ${isContactPage ? styles.whiteIcon : ''}`} 
           /> */}
           <FontAwesomeIcon 
-            className={`${styles.burgerIcon} ${isContactPage ? styles.whiteIcon : ''}`} 
+            className={`${styles.burgerIcon} ${menu ? styles.whiteIcon : ''}`} 
             onClick={toggleMenu} 
             icon={faBars} 
           />
         </div>
 
         {/* Dropdown menu for mobile on non-Contacts pages */}
-        {menu && !isContactPage && (
+        {menu && (
           <div className={styles.dropdownMenu}>
             <ul className={styles.dropdownLinks}>
               {["/ourstory", "/ourservice", "/shop", "/contacts"].map((path, index) => {
@@ -103,9 +106,9 @@ const Header = () => {
       </div>
 
       {/* Modal Overlay for Contacts page */}
-      {isContactPage && menu && (
+      {menu && (
         <div className={styles.modalOverlay} onClick={() => openMenu(false)}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.modalContent} ref={navRef}>
             <ul>
               {["/ourstory", "/ourservice", "/shop", "/contacts"].map((path, index) => {
                 const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
