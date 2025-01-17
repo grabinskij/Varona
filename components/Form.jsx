@@ -54,8 +54,7 @@ const Form = () => {
           const errorData = await response.json();
           setStatus(errorData.message || "There was an error sending the message.");
         } catch (jsonError) {
-          const errorText = await response.text();
-          setStatus(errorText || "An unknown error occurred.");
+          setStatus("An unknown error occurred. Please try again.");
         }
       }
     } catch (error) {
