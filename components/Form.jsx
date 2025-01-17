@@ -50,8 +50,13 @@ const Form = () => {
         setOpenModal(true); 
         setStatus("Message sent successfully!");
       } else {
-        const errorData = await response.json();
-        setStatus(errorData.message || "There was an error sending the message.");
+        try {
+          const errorData = await response.json();
+          setStatus(errorData.message || "There was an error sending the message.");
+        } catch (jsonError) {
+          const errorText = await response.text();
+          setStatus(errorText || "An unknown error occurred.");
+        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);
