@@ -43,7 +43,7 @@ const Header = () => {
         
         <div className={styles.navbar}>
           <ul className={styles.navLinks}>
-            {["/ourstory", "/ourservice", "/shop", "/contacts"].map((path, index) => {
+            {["/ourstory", "/reviews", "/shop", "/contacts"].map((path, index) => {
               const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
               return (
                 <li key={index} className={isContactPage ? styles.whiteNavLinkLi : ''}>
@@ -89,7 +89,7 @@ const Header = () => {
         {menu && !isContactPage && (
           <div className={styles.dropdownMenu}>
             <ul className={styles.dropdownLinks}>
-              {["/ourstory", "/ourservice", "/shop", "/contacts"].map((path, index) => {
+              {["/reviews", "/ourservice", "/shop", "/contacts"].map((path, index) => {
                 const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
                 return (
                   <li key={index}>
@@ -107,7 +107,7 @@ const Header = () => {
         <div className={styles.modalOverlay} onClick={() => openMenu(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <ul>
-              {["/ourstory", "/ourservice", "/shop", "/contacts"].map((path, index) => {
+              {["/reviews", "/ourservice", "/shop", "/contacts"].map((path, index) => {
                 const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
                 return (
                   <li key={index}>

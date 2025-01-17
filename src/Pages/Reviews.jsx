@@ -1,12 +1,12 @@
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedVideo } from '@cloudinary/react';
 import { useState } from 'react';
-import styles from "./OurStory.module.css";
+import styles from "./Reviews.module.css";
 import Review from '../../components/Review';
 import SubmitModal from '../../components/SubmitModal';
 import { FaStar } from 'react-icons/fa';
 
-const OurStory = () => {
+const Reviews = () => {
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
 
@@ -83,7 +83,7 @@ logo.format('webp').quality(80); // Optional settings for format and quality
         })}
       </div>
       <section className={styles.review}>
-        <h1 style={{color:'black'}}>What our client says:</h1>
+        <h1 style={{color:'black'}}>Reviews:</h1>
         {/* Reviews */}
         <div className={styles.reviewsList}>
         {error && <div className={styles.error}>{error}</div>}
@@ -131,4 +131,4 @@ logo.format('webp').quality(80); // Optional settings for format and quality
   );
 };
 
-export default OurStory;
+export default Reviews;
