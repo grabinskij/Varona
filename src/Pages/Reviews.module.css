@@ -71,6 +71,8 @@
 
 /* Review Section */
 .reviewsList {
+  align-items: center;
+  justify-content: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
   width: 30vw;
@@ -89,6 +91,7 @@
 }
 
 .reviewItem {
+  height: -webkit-fill-available;
   display: flex;
   flex-direction: column;
   margin: 20px;
@@ -105,7 +108,7 @@ font-weight: 600;
 }
 
 .reviewImg {
-  width: 30%;
+  width: 100%;
   height: auto;
   border-radius: 8px;
 }
