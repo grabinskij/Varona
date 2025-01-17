@@ -16,8 +16,8 @@ const App = () => {
         <Header />
         <Routes>
           <Route style={{position: 'absolute'}}  path="/" element={<Home />} />
-          <Route style={{position: 'relative'}}  path="/reviews" element={<Reviews />} />
           <Route style={{position: 'relative'}}  path="/ourservice" element={<OurService />} />
+          <Route style={{position: 'relative'}}  path="/reviews" element={<Reviews />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/shop" element={<Shop />} />
         </Routes>

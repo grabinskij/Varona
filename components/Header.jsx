@@ -46,7 +46,7 @@ const Header = () => {
         
         <div className={styles.navbar}>
           <ul className={styles.navLinks}>
-            {["/ourstory", "/reviews", "/shop", "/contacts"].map((path, index) => {
+            {["/ourservice", "/reviews", "/shop", "/contacts"].map((path, index) => {
               const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
               return (
                 <li key={index}>
@@ -92,7 +92,7 @@ const Header = () => {
         {menu && (
           <div className={styles.dropdownMenu}>
             <ul className={styles.dropdownLinks}>
-              {["/reviews", "/ourservice", "/shop", "/contacts"].map((path, index) => {
+              {["/ourservice", "/reviews", "/shop", "/contacts"].map((path, index) => {
                 const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
                 return (
                   <li key={index}>
@@ -110,7 +110,7 @@ const Header = () => {
         <div className={styles.modalOverlay} onClick={() => openMenu(false)}>
           <div className={styles.modalContent} ref={navRef}>
             <ul>
-              {["/reviews", "/ourservice", "/shop", "/contacts"].map((path, index) => {
+              {["/ourservice", "/reviews", "/shop", "/contacts"].map((path, index) => {
                 const label = path.slice(1).toUpperCase().replace(/_/g, ' ');
                 return (
                   <li key={index}>
