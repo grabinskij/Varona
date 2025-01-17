@@ -126,6 +126,8 @@ font-weight: 600;
 /* Desktop-specific styles */
 @media (min-width: 1024px) {
   .reviewsList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 3 columns of equal width */
     width: 90vw;
     margin-left: 5vw;
     margin-right: 5vw;
@@ -191,6 +193,8 @@ font-weight: 600;
   }
 
   .reviewsList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 3 columns of equal width */
     width: 90vw;
     margin-left: 5vw;
     margin-right: 5vw;
