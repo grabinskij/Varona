@@ -468,16 +468,37 @@ const transporter = nodemailer.createTransport({
 
 
 // MongoDB Connection
-let cachedConnection = null;
+
+let isConnected = false;
 
 async function connectToDatabase() {
-    if (cachedConnection) {
-        return cachedConnection;
+    if (isConnected) {
+        return;
     }
 
-    cachedConnection = await mongoose.connect(MONGO_URI);
-    return cachedConnection;
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            bufferCommands: false,
+        });
+        isConnected = true;
+        console.log('Connected to MongoDB');
+    } catch (error) {
+        console.error('MongoDB connection error:', error);
+        throw error;
+    }
 }
+// let cachedConnection = null;
+
+// async function connectToDatabase() {
+//     if (cachedConnection) {
+//         return cachedConnection;
+//     }
+
+//     cachedConnection = await mongoose.connect(MONGO_URI);
+//     return cachedConnection;
+// }
 
 // Routes
 
@@ -518,8 +539,7 @@ app.post("/api/feedback", feedbackLimiter, async (req, res) => {
                 Surname: ${surname}
                 Email: ${email}
                 Phone: ${phone || "not provided"}
-                Message:
-                ${sanitizedMessage}
+                Message: ${sanitizedMessage}
             `,
         });
 
