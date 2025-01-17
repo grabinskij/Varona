@@ -345,7 +345,7 @@ import Feedback from '../Models/Feedback.js';
 // import User from '../Models/User'; // Uncomment if needed
 // import { Server } from 'socket.io'; // Uncomment if needed
 import sanitizeHtml from 'sanitize-html';
-import helmet from 'helmet';
+// import helmet from 'helmet';
 import nodemailer from 'nodemailer';
 import Joi from 'joi';
 import { v2 as cloudinary } from 'cloudinary';
@@ -357,7 +357,7 @@ const app = express();
 // Load environment variables
 dotenv.config({ path: './.env.local' });
 
-app.use(helmet());
+// app.use(helmet());
 
 // Vercel specific
 app.set('trust proxy', true);
@@ -531,7 +531,7 @@ app.post("/api/feedback", feedbackLimiter, async (req, res) => {
         await feedback.save();
 
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: email,
             to: process.env.EMAIL_USER,
             subject: `New message from ${name} ${surname}`,
             text: `
