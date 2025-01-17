@@ -179,6 +179,15 @@ font-weight: 600;
     top: 1000px;
   }
 
+  .reviewsList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 3 columns of equal width */
+    width: 90vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    gap: 15px;
+  }
+
   .reviewStars {
     margin-bottom: 15px;
     margin-top: 15px;
