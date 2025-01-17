@@ -24,7 +24,7 @@ const Form = () => {
     }
     return `${import.meta.env.VITE_API_BASE_URL_LOCAL}/api/feedback`;
   };
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {

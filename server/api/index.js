@@ -413,7 +413,9 @@ const reviewLimiter = rateLimit({
 const feedbackLimiter = rateLimit({
     windowMs: 30 * 60 * 1000, 
     max: 100, 
-    message: 'Too many feedbacks submitted. Please try again later.'
+    message: 'Too many feedbacks submitted. Please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false
 });
 
 
@@ -424,9 +426,7 @@ app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
             FRONTEND_URL_LOCAL, 
-            FRONTEND_URL_PROD,
-            'https://www.nataliyarodionova.com',
-            'http://varona.vercel.app'
+            FRONTEND_URL_PROD
             ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
@@ -480,50 +480,100 @@ async function connectToDatabase() {
 }
 
 // Routes
-app.post("/api/feedback", async (req, res) => {
-    const { name, surname, email, phone, message, captchaToken, terms } = req.body;
-  
-    const { error } = feedbackSchema.validate(req.body);
-    if (error) return res.status(400).json({ message: error.details[0].message });
-  
-    if (terms !== "yes") {
-        return res.status(400).json({ message: "You must agree to the terms." });
-      }
 
-    const captchaValid = await verifyCaptcha(captchaToken);
-    if (!captchaValid)
-      return res.status(400).json({ message: "reCAPTCHA error. Please try again." });
-  
-    const sanitizedMessage = sanitizeHtml(message, {
-      allowedTags: [],
-      allowedAttributes: {},
-    });
-  
+app.post("/api/feedback", feedbackLimiter, async (req, res) => {
     try {
-      const feedback = new Feedback({ name, surname, email, phone, message });
-      await feedback.save();
+        await connectToDatabase();
+        
+        const { error } = feedbackSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ success: false, message: error.details[0].message });
+        }
 
-      const mailOptions = {
-        from: email,
-        to: process.env.EMAIL_USER,
-        subject: `New message from ${name} ${surname}`,
-        text: `
-          Name: ${name}
-          Surname: ${surname}
-          Email: ${email}
-          Phone: ${phone || "not provided"}
-          Message:
-          ${sanitizedMessage}
-        `,
-      };
-      await transporter.sendMail(mailOptions);
-  
-      res.status(200).json({ message: "Message sent successfully." });
+        const { name, surname, email, phone, message, captchaToken, terms } = req.body;
+
+        if (terms !== "yes") {
+            return res.status(400).json({ success: false, message: "You must agree to the terms." });
+        }
+
+        const captchaValid = await verifyCaptcha(captchaToken);
+        if (!captchaValid) {
+            return res.status(400).json({ success: false, message: "reCAPTCHA verification failed." });
+        }
+
+        const sanitizedMessage = sanitizeHtml(message, {
+            allowedTags: [],
+            allowedAttributes: {},
+        });
+
+        const feedback = new Feedback({ name, surname, email, phone, message: sanitizedMessage });
+        await feedback.save();
+
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER,
+            subject: `New message from ${name} ${surname}`,
+            text: `
+                Name: ${name}
+                Surname: ${surname}
+                Email: ${email}
+                Phone: ${phone || "not provided"}
+                Message:
+                ${sanitizedMessage}
+            `,
+        });
+
+        res.status(200).json({ success: true, message: "Message sent successfully." });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error." });
+        console.error('Feedback submission error:', error);
+        res.status(500).json({ success: false, message: "An error occurred while processing your request." });
     }
-  });
+});
+
+// app.post("/api/feedback", async (req, res) => {
+//     const { name, surname, email, phone, message, captchaToken, terms } = req.body;
+  
+//     const { error } = feedbackSchema.validate(req.body);
+//     if (error) return res.status(400).json({ message: error.details[0].message });
+  
+//     if (terms !== "yes") {
+//         return res.status(400).json({ message: "You must agree to the terms." });
+//       }
+
+//     const captchaValid = await verifyCaptcha(captchaToken);
+//     if (!captchaValid)
+//       return res.status(400).json({ message: "reCAPTCHA error. Please try again." });
+  
+//     const sanitizedMessage = sanitizeHtml(message, {
+//       allowedTags: [],
+//       allowedAttributes: {},
+//     });
+  
+//     try {
+//       const feedback = new Feedback({ name, surname, email, phone, message });
+//       await feedback.save();
+
+//       const mailOptions = {
+//         from: email,
+//         to: process.env.EMAIL_USER,
+//         subject: `New message from ${name} ${surname}`,
+//         text: `
+//           Name: ${name}
+//           Surname: ${surname}
+//           Email: ${email}
+//           Phone: ${phone || "not provided"}
+//           Message:
+//           ${sanitizedMessage}
+//         `,
+//       };
+//       await transporter.sendMail(mailOptions);
+  
+//       res.status(200).json({ message: "Message sent successfully." });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: "Server error." });
+//     }
+//   });
 
 
 app.post('/api/reviews', reviewLimiter, upload.single('image'), async (req, res) => { 
