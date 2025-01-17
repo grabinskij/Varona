@@ -1,21 +1,23 @@
 // ===============Express Server=============
 
-// const express = require('express');
-// const mongoose = require('mongoose');
-// const multer = require('multer'); 
-// const cors = require('cors');
-// const dotenv = require('dotenv');
-// const rateLimit = require('express-rate-limit');
-// const Review = require('../Models/Review');
-// // const User = require('../Models/User');
-// // const { Server } = require('socket.io'); // uncomment if you want to use socket.io
-// const http = require('http');
-// const sanitizeHtml = require('sanitize-html');
-// const helmet = require('helmet');
+// import express from 'express';
+// import mongoose from 'mongoose';
+// import multer from 'multer';
+// import cors from 'cors';
+// import dotenv from 'dotenv';
+// import rateLimit from 'express-rate-limit';
+// import Review from '../Models/Review.js';
+// import Feedback from '../Models/Feedback.js';
+// // import User from '../Models/User.js'; // Uncomment if needed
+// // import { Server } from 'socket.io'; // Uncomment if needed
+// import http from 'http';
+// import sanitizeHtml from 'sanitize-html';
+// import helmet from 'helmet';
+// import nodemailer from 'nodemailer';
+// import Joi from 'joi';
+// import { v2 as cloudinary } from 'cloudinary';
+// import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
-
-// const cloudinary = require('cloudinary').v2;
-// const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // const app = express();
 // const server = http.createServer(app);
@@ -24,7 +26,9 @@
 // dotenv.config({ path: './.env.local' });
 
 // if (process.env.NODE_ENV === 'production') {
-//     app.set('trust proxy', true);
+//     app.set('trust proxy', true); 
+// } else {
+//     app.set('trust proxy', false); 
 // }
 
 // cloudinary.config({
@@ -60,11 +64,14 @@
 //     MONGO_URI, 
 //     PORT, 
 //     FRONTEND_URL_LOCAL, 
-//     FRONTEND_URL_PROD
+//     FRONTEND_URL_PROD,
+//     EMAIL_USER,
+//     EMAIL_PASS,
+//     RECAPTCHA_SECRET_KEY
 // } = process.env;
 
 
-// if (!MONGO_URI || !PORT || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD) {
+// if (!MONGO_URI || !PORT || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD || !EMAIL_USER || !EMAIL_PASS || !RECAPTCHA_SECRET_KEY) {
 //     console.error('Missing required environment variables');
 //     process.exit(1);
 // }
@@ -75,7 +82,15 @@
 //     message: 'Too many reviews submitted. Please try again later.'
 // });
 
+// const feedbackLimiter = rateLimit({
+//     windowMs: 30 * 60 * 1000, // 1 hour
+//     max: 100, // 3 reviews per IP
+//     message: 'Too many feedbacks submitted. Please try again later.'
+// });
+
 // // Middleware
+// app.use("/api/feedback", feedbackLimiter);
+
 // app.use(helmet()); 
 
 // app.use(express.json({ limit: '10mb' })); // Limit payload size
@@ -91,6 +106,34 @@
 //     credentials: true
 // }));
 
+// const feedbackSchema = Joi.object({
+//     name: Joi.string().min(3).max(50).required(),
+//     surname: Joi.string().min(3).max(50).required(),
+//     email: Joi.string().email().required(),
+//     phone: Joi.string().pattern(/^[0-9]{10,15}$/).allow(""),
+//     message: Joi.string().min(10).max(1000).required(),
+//     captchaToken: Joi.string().required(),
+//     terms: Joi.string().valid("yes").required() 
+//   });
+
+
+// async function verifyCaptcha(token) {
+//     const response = await fetch(
+//       `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+//       { method: "POST" }
+//     );
+//     const data = await response.json();
+//     return data.success;
+//   }
+
+// const transporter = nodemailer.createTransport({
+//     service: "gmail",
+//     auth: {
+//       user: process.env.EMAIL_USER, 
+//       pass: process.env.EMAIL_PASS, 
+//     },
+//   });
+
 
 // // MongoDB Connection
 // mongoose.connect(MONGO_URI)
@@ -102,6 +145,52 @@
 //         console.error('MongoDB connection error:', err);
 //         process.exit(1);
 //     });
+
+
+// app.post("/api/feedback", async (req, res) => {
+//     const { name, surname, email, phone, message, captchaToken, terms } = req.body;
+  
+//     const { error } = feedbackSchema.validate(req.body);
+//     if (error) return res.status(400).json({ message: error.details[0].message });
+  
+//     if (terms !== "yes") {
+//         return res.status(400).json({ message: "You must agree to the terms." });
+//       }
+
+//     const captchaValid = await verifyCaptcha(captchaToken);
+//     if (!captchaValid)
+//       return res.status(400).json({ message: "reCAPTCHA error. Please try again." });
+  
+//     const sanitizedMessage = sanitizeHtml(message, {
+//       allowedTags: [],
+//       allowedAttributes: {},
+//     });
+  
+//     try {
+//       const feedback = new Feedback({ name, surname, email, phone, message });
+//       await feedback.save();
+
+//       const mailOptions = {
+//         from: email,
+//         to: process.env.EMAIL_USER,
+//         subject: `New message from ${name} ${surname}`,
+//         text: `
+//           Name: ${name}
+//           Surname: ${surname}
+//           Email: ${email}
+//           Phone: ${phone || "not provided"}
+//           Message:
+//           ${sanitizedMessage}
+//         `,
+//       };
+//       await transporter.sendMail(mailOptions);
+  
+//       res.status(200).json({ message: "Message sent successfully." });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: "Server error." });
+//     }
+//   });
 
 
 // app.post('/api/reviews', reviewLimiter, upload.single('image'), async (req, res) => { 
@@ -245,21 +334,30 @@
 
 // ===============Adapted Express Server for Vercel=============
 
-const express = require('express');
-const mongoose = require('mongoose');
-const multer = require('multer'); 
-const cors = require('cors');
-const dotenv = require('dotenv');
-const rateLimit = require('express-rate-limit');
-const Review = require('../Models/Review');
-const sanitizeHtml = require('sanitize-html');
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+import express from 'express';
+import mongoose from 'mongoose';
+import multer from 'multer';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import rateLimit from 'express-rate-limit';
+import Review from '../Models/Review';
+import Feedback from '../Models/Feedback.js';
+// import User from '../Models/User'; // Uncomment if needed
+// import { Server } from 'socket.io'; // Uncomment if needed
+import sanitizeHtml from 'sanitize-html';
+import helmet from 'helmet';
+import nodemailer from 'nodemailer';
+import Joi from 'joi';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
 
 const app = express();
 
 // Load environment variables
 dotenv.config({ path: './.env.local' });
+
+app.use(helmet());
 
 // Vercel specific
 app.set('trust proxy', true);
@@ -295,10 +393,13 @@ const upload = multer({
 const { 
     MONGO_URI, 
     FRONTEND_URL_LOCAL,
-    FRONTEND_URL_PROD
+    FRONTEND_URL_PROD,
+    EMAIL_USER,
+    EMAIL_PASS,
+    RECAPTCHA_SECRET_KEY
 } = process.env;
 
-if (!MONGO_URI || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD) {
+if (!MONGO_URI || !FRONTEND_URL_LOCAL || !FRONTEND_URL_PROD || !EMAIL_USER || !EMAIL_PASS || !RECAPTCHA_SECRET_KEY) {
     console.error('Missing required environment variables');
     process.exit(1);
 }
@@ -309,7 +410,15 @@ const reviewLimiter = rateLimit({
     message: 'Too many reviews submitted. Please try again later.'
 });
 
+const feedbackLimiter = rateLimit({
+    windowMs: 30 * 60 * 1000, 
+    max: 100, 
+    message: 'Too many feedbacks submitted. Please try again later.'
+});
+
+
 // Middleware
+app.use("/api/feedback", feedbackLimiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(cors({
     origin: (origin, callback) => {
@@ -328,6 +437,36 @@ app.use(cors({
     credentials: true
 }));
 
+
+const feedbackSchema = Joi.object({
+    name: Joi.string().min(3).max(50).required(),
+    surname: Joi.string().min(3).max(50).required(),
+    email: Joi.string().email().required(),
+    phone: Joi.string().pattern(/^[0-9]{10,15}$/).allow(""),
+    message: Joi.string().min(10).max(1000).required(),
+    captchaToken: Joi.string().required(),
+    terms: Joi.string().valid("yes").required() 
+  });
+
+
+async function verifyCaptcha(token) {
+    const response = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+      { method: "POST" }
+    );
+    const data = await response.json();
+    return data.success;
+  }
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER, 
+      pass: process.env.EMAIL_PASS, 
+    },
+  });
+
+
 // MongoDB Connection
 let cachedConnection = null;
 
@@ -341,6 +480,52 @@ async function connectToDatabase() {
 }
 
 // Routes
+app.post("/api/feedback", async (req, res) => {
+    const { name, surname, email, phone, message, captchaToken, terms } = req.body;
+  
+    const { error } = feedbackSchema.validate(req.body);
+    if (error) return res.status(400).json({ message: error.details[0].message });
+  
+    if (terms !== "yes") {
+        return res.status(400).json({ message: "You must agree to the terms." });
+      }
+
+    const captchaValid = await verifyCaptcha(captchaToken);
+    if (!captchaValid)
+      return res.status(400).json({ message: "reCAPTCHA error. Please try again." });
+  
+    const sanitizedMessage = sanitizeHtml(message, {
+      allowedTags: [],
+      allowedAttributes: {},
+    });
+  
+    try {
+      const feedback = new Feedback({ name, surname, email, phone, message });
+      await feedback.save();
+
+      const mailOptions = {
+        from: email,
+        to: process.env.EMAIL_USER,
+        subject: `New message from ${name} ${surname}`,
+        text: `
+          Name: ${name}
+          Surname: ${surname}
+          Email: ${email}
+          Phone: ${phone || "not provided"}
+          Message:
+          ${sanitizedMessage}
+        `,
+      };
+      await transporter.sendMail(mailOptions);
+  
+      res.status(200).json({ message: "Message sent successfully." });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error." });
+    }
+  });
+
+
 app.post('/api/reviews', reviewLimiter, upload.single('image'), async (req, res) => { 
     try {
         await connectToDatabase();
